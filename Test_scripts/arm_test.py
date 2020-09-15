@@ -16,7 +16,6 @@ pca.frequency = 1000
 motor1 = pca.channels[0]
 motor2 = pca.channels[1]
 #Channel A
-#Github test
 
 #GPIO.setup(15, GPIO.IN)
 x=False
