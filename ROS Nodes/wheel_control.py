@@ -2,7 +2,7 @@
 import rospy
 from std_msgs.msg import Int16
 
-fowards = 100
+forwards = 100
 backwards = 0
 stopped = 50
 
