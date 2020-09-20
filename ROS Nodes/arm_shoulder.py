@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import rospy
-from std_msgs.msg import Int16
+from std_msgs.msg import Int32
 
 def callback(data):
     rospy.loginfo(data.data)
@@ -8,7 +8,7 @@ def callback(data):
 def arm_shoulder():
 
     rospy.init_node('arm_shoulder')
-    rospy.Subscriber('shoulder', Int16, callback)
+    rospy.Subscriber('shoulder', Int32, callback)
     rospy.spin()
 
 if __name__ == '__main__':
