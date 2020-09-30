@@ -32,6 +32,13 @@ def talker():
 
     while not rospy.is_shutdown():
 
+        tHeading = math.atan((tLong-cLong)/(tLat-cLat))
+
+        tHeading = math.degrees(tHeading)
+
+        if cLat > tLat:
+            tHeading += 180
+
         if autoMode:
             if tHeading > cHeading:
                 pub_status.publish(3)
