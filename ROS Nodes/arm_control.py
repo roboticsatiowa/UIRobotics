@@ -13,6 +13,24 @@ l_sec = 5 # lower arm section, the one closest to the base
 u_sec = 5
 speed = 100 #movement speed 1-100
 
+def t_xPos_callback(data):
+    global t_xPos
+    print("Target X Position: ")
+    t_xPos = data.data
+    print(t_xPos)
+
+def t_yPos_callback(data):
+    global t_yPos
+    print("Target Y Position: ")
+    t_yPos = data.data
+    print(t_yPos)
+
+def t_zPos_callback(data):
+    global t_zPos
+    print("Target Z Position: ")
+    t_zPos = data.data
+    print(t_zPos)
+
 
 def talker():
     global t_xPos
@@ -35,7 +53,17 @@ def talker():
     pub_elbow = rospy.Publisher('elbow',Int32,queue_size=10)
 
     rospy.init_node('arm_control')
+
+    while(pub_base.get_num_connections()==0 or pub_shoulder.get_num_connections()==0 or pub_elbow.get_num_connections()==0):
+        print("No connection!")
+
+    rospy.Subscriber('t_xPos',Int32,t_xPos_callback)
+    rospy.Subscriber('t_yPos',Int32,t_yPos_callback)
+    rospy.Subscriber('t_zPos',Int32,t_zPos_callback)
+    
+    
     rate = rospy.Rate(10)
+    print("Talker initialized!")
 
     while not rospy.is_shutdown():
 

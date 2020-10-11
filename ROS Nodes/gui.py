@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-#test comment
 import rospy
 from std_msgs.msg import Int32
 
@@ -10,6 +9,9 @@ def talker():
     global speed
     pub_speed = rospy.Publisher('speed',Int32,queue_size=10)
     pub_status = rospy.Publisher('status',Int32,queue_size=10)
+    pub_xPos = rospy.Publisher('t_xPos',Int32,queue_size=10)
+    pub_yPos = rospy.Publisher('t_yPos',Int32,queue_size=10)
+    pub_zPos = rospy.Publisher('t_zPos',Int32,queue_size=10)
 
     rospy.init_node('gui')
 
@@ -17,6 +19,8 @@ def talker():
 	print("No connection!")
 
     rate = rospy.Rate(10)
+
+    print("Talker initialized!")
 
     while not rospy.is_shutdown():
 
