@@ -12,6 +12,9 @@ def talker():
     pub_xPos = rospy.Publisher('t_xPos',Int32,queue_size=10)
     pub_yPos = rospy.Publisher('t_yPos',Int32,queue_size=10)
     pub_zPos = rospy.Publisher('t_zPos',Int32,queue_size=10)
+    pub_grip = rospy.Publisher('hand_grip',Int32,queue_size=10)
+    pub_angle = rospy.Publisher('w_angle',Int32,queue_size=10)
+    pub_orientation = rospy.Publisher('orientation',Int32,queue_size=10)
 
     rospy.init_node('gui')
 
