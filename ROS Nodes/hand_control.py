@@ -24,7 +24,7 @@ def orientation_degree_callback(data):
     print(orientation_degree)
 
 def talker():
-    global hand_grip
+    global grip_percent
     global w_angle
     global orientation_degree
     pub_hand_grip = rospy.Publisher('hand_grip',Int32,queue_size=10)
@@ -35,7 +35,7 @@ def talker():
 
     rate = rospy.Rate(10)
 
-    while(pub_hand_control.get_num_connections()==0 or pub_wrist_control.get_num_connections()==0 or pub_orientation_control.get_num_connections()==0):
+    while(pub_hand_grip.get_num_connections()==0 or pub_wrist_control.get_num_connections()==0 or pub_orientation_control.get_num_connections()==0):
         print("No connection!")
 
     rospy.Subscriber('grip_percent',Int32,grip_percent_callback)
@@ -43,3 +43,9 @@ def talker():
     rospy.Subscriber('orientation_degree',Int32,orientation_degree_callback)
 
     while not rospy.is_shutdown():
+        #will calculate how much orientation needs to change
+        orientation_change_clockwise = orientation_degree % 360
+        #will change the direction of the wrist orientation to counter clockwise
+        orientation_change_counter_clockwise = orientation_change_clockwise * -1
+
+

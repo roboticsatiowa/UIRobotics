@@ -2,7 +2,7 @@
 import rospy
 from std_msgs.msg import Int32
 
-def callback(data)
+def callback(data):
     rospy.loginfo(data.data)
 
 def orientation_control():
