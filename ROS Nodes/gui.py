@@ -4,9 +4,15 @@ from std_msgs.msg import Int32
 
 speed = 50
 status = 3
+grip_percent = 0
+w_angle = 90
+orientation_degree = 0
 
 def talker():
     global speed
+    global w_angle
+    global grip_percent
+    global orientaion_degree
     pub_speed = rospy.Publisher('speed',Int32,queue_size=10)
     pub_status = rospy.Publisher('status',Int32,queue_size=10)
     pub_xPos = rospy.Publisher('t_xPos',Int32,queue_size=10)
@@ -34,16 +40,21 @@ def talker():
 
 
 	speed = int(key)
-    grip_percent = int(grip_key) % 100
+    grip_percent = int(grip_key)
     orientation_degree = int(o_key)
+    w_angle = int(w_key)
+
+
 
         pub_speed.publish(speed)
 
         pub_status.publish(status)
 
-        pub_orientation.publish(o_key)
+        pub_orientation.publish(orientation_degree)
 
-        pub_grip.publish()
+        pub_grip.publish(grip_percent)
+
+        pub_angle.publish(w_angle)
 
         rate.sleep()
     
