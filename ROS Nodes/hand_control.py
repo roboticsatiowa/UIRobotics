@@ -43,9 +43,6 @@ def talker():
     rospy.Subscriber('orientation_degree',Int32,orientation_degree_callback)
 
     while not rospy.is_shutdown():
-        #will calculate how much orientation needs to change
-        orientation_change_clockwise = orientation_degree % 360
-        #will change the direction of the wrist orientation to counter clockwise
-        orientation_change_counter_clockwise = orientation_change_clockwise * -1
+        
 
 

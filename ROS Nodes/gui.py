@@ -28,14 +28,25 @@ def talker():
     while not rospy.is_shutdown():
 
         key = raw_input("New speed (out of 100):")
+        grip_key = raw_input("amount of closure of hand (out of 100):")
+        w_key = raw_input("angle of wrist perpendicular to the arm(0 to 180):")
+        o_key = raw_input("orientation of the hand(0 to 360):")
+
 
 	speed = int(key)
+    grip_percent = int(grip_key) % 100
+    orientation_degree = int(o_key)
 
         pub_speed.publish(speed)
 
         pub_status.publish(status)
 
+        pub_orientation.publish(o_key)
+
+        pub_grip.publish()
+
         rate.sleep()
+    
 
 
 if __name__ == '__main__':
