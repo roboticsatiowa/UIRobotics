@@ -5,7 +5,7 @@ def ik(xPos,yPos,seg1 = 1, seg2 = 1):
     
     upperAngle = math.acos((-math.pow(seg1,2)-math.pow(seg2,2)+math.pow(xPos,2)+math.pow(yPos,2))/(2*seg1*seg2))
     
-    lowerAngle = math.atan2(yPos,xPos) - math.atan2((seg2*math.sin(upperAngle)),(seg1+seg2*math.cos(upperAngle)))
+    lowerAngle = math.atan2(yPos,xPos) - math.asin(((seg2*math.sin(upperAngle)))/(math.pow(math.pow(xPos,2)+math.pow(yPos,2),.5)))
 
     print(math.degrees(lowerAngle),math.degrees(upperAngle))
 
@@ -35,7 +35,7 @@ def ik(xPos,yPos,seg1 = 1, seg2 = 1):
 
         seg1Pos = (int(screen_center[0] + 100*seg1*math.cos(lowerAngle)),int(screen_center[1] - 100*seg1*math.sin(lowerAngle)))
 
-        seg2Pos = (int(screen_center[0] + 100*seg2*math.cos(upperAngle)+seg1Pos[0]),int(screen_center[1] - 100*seg2*math.sin(upperAngle)-seg1Pos[1]))
+        seg2Pos = (int(100*seg2*math.cos(upperAngle+lowerAngle)+seg1Pos[0]),int(seg1Pos[1]-100*seg2*math.sin(upperAngle+lowerAngle)))
 
         pygame.draw.circle(screen,(227, 54, 224),seg1Pos,6)
 
@@ -58,4 +58,4 @@ def ik(xPos,yPos,seg1 = 1, seg2 = 1):
     pygame.quit()
 
 
-ik(1,0.5)
+ik(-.5,.5)
