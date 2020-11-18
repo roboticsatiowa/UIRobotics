@@ -91,7 +91,7 @@ def talker():
 
         te_angle = math.acos((math.pow(h_d,2)+math.pow(t_zPos,2)-math.pow(l_sec,2)-math.pow(u_sec,2))/(2*l_sec*u_sec)) #this is in radians
 
-        ts_angle = math.degrees(math.atan(h_d/t_zPos)-math.atan((u_sec*math.sin(te_angle))/(l_sec+u_sec*math.cos(te_angle)))) #target elbow angle
+        ts_angle = math.degrees(math.atan2(h_d/t_zPos)-math.asin(((u_sec*math.sin(te_angle)))/(math.pow(math.pow(h_d,2)+math.pow(t_zPos,2),.5))) #target elbow angle
 
         te_angle = math.degrees(te_angle) #convert to degrees
 

@@ -1,7 +1,9 @@
 import math
-t_xPos = .3
-t_yPos = .3
-t_zPos = .8
+import pygame
+import time
+t_xPos = 0.3
+t_yPos = 0.3
+t_zPos = .3
 b_angle = 0 #angles are in degrees, not radians
 s_angle = 0
 e_angle = 0
@@ -33,37 +35,47 @@ else:
 
 d_d = math.pow((math.pow(h_d,2)+math.pow(t_zPos,2)),.5) #diagonal distance calculation
 
-te_angle = math.acos((math.pow(h_d,2)+math.pow(t_zPos,2)-math.pow(l_sec,2)-math.pow(u_sec,2))/(2*l_sec*u_sec)) #this is in radians
+alpha= math.acos((math.pow(u_sec,2)+math.pow(l_sec,2)-math.pow(d_d,2))/(2*l_sec*u_sec))
 
-ts_angle = math.degrees(math.atan(h_d/t_zPos)-math.atan((u_sec*math.sin(te_angle))/(l_sec+u_sec*math.cos(te_angle)))) #target elbow angle
+#te_angle = math.acos(math.pow(d_d,2)-math.pow(l_sec,2)-math.pow(u_sec,2))/(2*l_sec*u_sec)) #this is in radians
+
+te_angle = math.pi - alpha
+
+ts_angle = math.degrees(math.atan(h_d/t_zPos)+math.atan((u_sec*math.sin(te_angle))/(l_sec+u_sec*math.cos(te_angle)))) #target elbow angle
 
 te_angle = math.degrees(te_angle) #convert to degrees
 
 print(tb_angle,ts_angle,te_angle)
 
-#move to match target angles
-'''
-while abs(b_angle-tb_angle)>.5:
-    if b_angle < tb_angle:
-        #pub_base.publish(signal)
-        print("base pos")
-    else:
-        #pub_base.publish(reverse)
-        print("base neg")
+pygame.init()
 
-while abs(s_angle-ts_angle)>.5:
-    if s_angle < ts_angle:
-        #pub_shoulder.publish(signal)
-        print("shoulder pos")
-    else:
-        #pub_shoulder.publish(reverse)
-        print("shoulder neg")
+screen_width =500
+screen_height = 500
+screen_center = (screen_width / 2, screen_height / 2)
 
-while abs(e_angle-te_angle)>.5:
-    if e_angle < te_angle:
-        #pub_elbow.publish(signal)
-        print("elbow pos")
-    else:
-        #pub_elbow.publish(reverse)
-        print("elbow neg")
-'''
+screen = pygame.display.set_mode([screen_width, screen_height])
+
+running = True
+while running:
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    screen.fill((255, 255, 255))
+
+    pygame.draw.circle(screen,(66,135,245),(int(screen_width/2),int(screen_height/2)),6)
+
+    pygame.draw.circle(screen,(199,38,81),(int(screen_center[0]+h_d*250),int(screen_center[1]-t_zPos*250)),6)
+
+    pygame.draw.line(screen,0,(screen_center[0],screen_center[1]),(screen_center[0]+250*(l_sec*math.cos(math.radians(ts_angle))),screen_center[1]-250*(l_sec*math.sin(math.radians(ts_angle)))),4)
+
+    pygame.draw.line(screen,0,(screen_center[0]+250*(l_sec*math.cos(math.radians(ts_angle))),screen_center[1]-250*(l_sec*math.sin(math.radians(ts_angle)))),(screen_center[0]+250*(u_sec*math.cos(math.radians(te_angle))),screen_center[1]-250*(u_sec*math.sin(math.radians(te_angle)))),4)
+
+    #pygame.draw.line(screen,0,(screen_center[0],screen_center[1]),(screen_center[0]+250,screen_center[1]-250))
+
+    pygame.display.flip()
+
+    pygame.display.flip()
+
+pygame.quit()
