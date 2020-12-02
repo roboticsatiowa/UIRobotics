@@ -3,6 +3,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 import sys
 from UITest2 import Ui_GroupBox
+from generateMap import getMapImage
 
 class MainWindow(QGroupBox, Ui_GroupBox):
     def __init__(self):
@@ -12,14 +13,29 @@ class MainWindow(QGroupBox, Ui_GroupBox):
         self.start = False
         self.startTimer.clicked.connect(self.start_action)
         self.resetTimer.clicked.connect(self.reset_action)
+        self.autonomous.clicked.connect(self.goAutonomous)
+        self.manual.clicked.connect(self.goManual)
+        self.thingButton.clicked.connect(lambda:getMapImage(38.266,-110.719))
         timer = QTimer(self)
         timer.timeout.connect(self.showTime)
         timer.start(100)
+        
+        
         self.show()
+
+    def goAutonomous(self):
+        print("yes")
+        #have a way to make the rover switch to autonomous
+
+    def goManual(self):
+        print("yes")
+        #have a way to make the rover switch to manual
 
         
          # method called by timer 
     def showTime(self):
+        maps = QPixmap("C:\\Users\\Nathan\\AppData\\Local\\Programs\\Python\\Python38\\googlemap.png")
+        self.map.setPixmap(maps)
         
         # checking if flag is true 
         if self.start: 
@@ -33,7 +49,6 @@ class MainWindow(QGroupBox, Ui_GroupBox):
                 self.start = False
   
         if self.start:
-            print("works")
             # getting text from count 
             text = int(self.count / 10) 
   
@@ -53,9 +68,7 @@ class MainWindow(QGroupBox, Ui_GroupBox):
             self.count = second * 10
             # setting text to the label 
             self.lcdNumber.display(second)
-        else:
-            print(self.lineEdit.text())
-  
+
     def start_action(self):
 
         self.get_seconds()
@@ -63,7 +76,6 @@ class MainWindow(QGroupBox, Ui_GroupBox):
         # making flag true 
         self.start = True
 
-        print(self.start)
         # count = 0 
         if self.count == 0: 
             self.start = False
