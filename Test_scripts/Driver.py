@@ -34,7 +34,7 @@ class MainWindow(QGroupBox, Ui_GroupBox):
         
          # method called by timer 
     def showTime(self):
-        maps = QPixmap("C:\\Users\\Nathan\\AppData\\Local\\Programs\\Python\\Python38\\googlemap.png")
+        maps = QPixmap("googlemap.png")
         self.map.setPixmap(maps)
         
         # checking if flag is true 
