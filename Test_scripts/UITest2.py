@@ -358,6 +358,7 @@ class Ui_GroupBox(object):
         self.autonomous.clicked.connect(self.horizontal.hide)
         self.autonomous.clicked.connect(self.vertical.hide)
         self.autonomous.clicked.connect(self.verticalSlider.hide)
+        self.stop.clicked.connect(GroupBox.close)
         QtCore.QMetaObject.connectSlotsByName(GroupBox)
 
     def retranslateUi(self, GroupBox):
