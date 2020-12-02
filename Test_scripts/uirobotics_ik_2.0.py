@@ -15,7 +15,9 @@ def ik(xPos,yPos,seg1 = 1, seg2 = 1):
     screen_height = 500
     screen_center = (screen_width / 2, screen_height / 2)
 
-    screen = pygame.display.set_mode([screen_width, screen_height])
+    #screen = pygame.display.set_mode([screen_width, screen_height])
+
+    screen = pygame.Surface([screen_width, screen_height])
 
     count = 0
 
