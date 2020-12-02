@@ -52,7 +52,11 @@ def ik(xPos,yPos,seg1 = 1, seg2 = 1):
 
         #pygame.draw.line(screen,0,screen_center,(int(screen_center[0]+xPos*100),int(screen_center[1]-yPos*100)),4)
 
-        pygame.display.flip()
+        #pygame.display.flip()
+
+        pygame.image.save(screen,"arm_image.png")
+
+        running = False
 
 
     pygame.quit()
