@@ -89,3 +89,9 @@ def talker():
             else:
                 #open more
                 pub_hand_grip.publish(backwards)
+
+if __name__ == '__main__':
+    try:
+        talker()
+    except rospy.ROSInterruptException:
+        pass
