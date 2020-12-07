@@ -56,7 +56,7 @@ def talker():
 
     rate = rospy.Rate(10)
 
-    while(pub_hand_grip.get_num_connections()==0 or pub_wrist_control.get_num_connections()==0 or pub_orientation_control.get_num_connections()==0):
+    while(pub_hand_grip.get_num_connections()==0 or pub_wrist_a.get_num_connections()==0 or pub_wrist_b.get_num_connections()==0):
         print("No connection!")
 
     rospy.Subscriber('grip_percent',Int32,grip_percent_callback)
