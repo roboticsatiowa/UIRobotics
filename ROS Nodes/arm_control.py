@@ -107,21 +107,21 @@ def talker():
 
         while abs(b_angle-tb_angle)>.5:
             if b_angle < tb_angle:
-                pub_base.publish(signal)
+                pub_base.publish(int(signal))
             else:
-                pub_base.publish(reverse)
+                pub_base.publish(int(reverse))
 
         while abs(s_angle-ts_angle)>.5:
             if s_angle < ts_angle:
-                pub_shoulder.publish(signal)
+                pub_shoulder.publish(int(signal))
             else:
-                pub_shoulder.publish(reverse)
+                pub_shoulder.publish(int(reverse))
 
         while abs(e_angle-te_angle)>.5:
             if e_angle < te_angle:
-                pub_elbow.publish(signal)
+                pub_elbow.publish(int(signal))
             else:
-                pub_elbow.publish(reverse)
+                pub_elbow.publish(int(reverse))
             
         rate.sleep()
 
