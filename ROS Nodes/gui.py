@@ -38,14 +38,11 @@ def talker():
         w_key = raw_input("angle of wrist perpendicular to the arm(0 to 180):")
         o_key = raw_input("orientation of the hand(0 to 360):")
 
-
 	speed = int(key)
-    grip_percent = int(grip_key)
-    orientation_degree = int(o_key)
-    w_angle = int(w_key)
-
-
-
+        grip_percent = int(grip_key)
+        orientation_degree = int(o_key)
+        w_angle = int(w_key)
+        
         pub_speed.publish(speed)
 
         pub_status.publish(status)
