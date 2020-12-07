@@ -77,6 +77,9 @@ def talker():
 
         h_d = math.pow((math.pow(t_xPos,2)+math.pow(t_yPos,2)),.5) #horizontal distance between arm base and target
 
+        if h_d == 0:
+            h_d = .01
+
         tb_angle_temp = math.degrees(math.acos(t_xPos/h_d)) #set target base angle
 
         #print(tb_angle_temp)
