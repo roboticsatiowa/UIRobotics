@@ -2,13 +2,14 @@
 import rospy
 from std_msgs.msg import Int32
 
+
 def callback(data):
     rospy.loginfo(data.data)
 
-def hand_grip():
-    rospy.init_node('hand_grip')
-    rospy.Subscriber('hand_grip',Int32,callback)
+def wrist_b():
+    rospy.init_node('wrist_b')
+    rospy.Subscriber('wrist_b',Int32,callback)
     rospy.spin()
 
 if __name__ == '__main__':
-    hand_grip()
+    wrist_b()

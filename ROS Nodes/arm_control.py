@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import rospy
 import math
 from std_msgs.msg import Int32
@@ -68,7 +68,7 @@ def talker():
     while not rospy.is_shutdown():
 
         signal = (speed/100)*65535
-        reverse = signal * -1
+        reverse = 65535 - signal
 
         if pow(pow(t_xPos,2)+pow(t_yPos,2)+pow(t_zPos,2),.5)>l_sec+u_sec:
             print("WARNING: Out of reach!")
