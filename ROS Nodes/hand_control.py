@@ -77,8 +77,8 @@ def talker():
                 #go backwards
                 pub_wrist_a.publish(reverse)
                 pub_wrist_b.publish(reverse)
-        while abs(t_wrist_angle - c_wrist_angle > .5):
-            if(t_wrist_angle > c_wrist_angle):
+        while abs(t_w_angle - c_w_angle > .5):
+            if(t_w_angle > c_w_angle):
                 #turn right
                 pub_wrist_a.publish(forwards)
                 pub_wrist_b.publish(reverse)
