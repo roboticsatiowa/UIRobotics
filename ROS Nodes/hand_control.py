@@ -15,7 +15,7 @@ def grip_percent_callback(data):
     print("Target Grip Position: ")
     if data.data > 100:
         t_grip_percent = 100
-    else if data.data < 0:
+    elif data.data < 0:
         t_grip_percent = 0
     else:
         t_grip_percent = data.data
@@ -25,7 +25,7 @@ def w_angle_callback(data):
     print("Target wrist angle Postion: ")
     if data.data > 90:
         t_w_angle = 90
-    else if data.data < -90:
+    elif data.data < -90:
         t_w_angle = -90
     else:
         t_w_angle = data.data
@@ -35,7 +35,7 @@ def orientation_degree_callback(data):
     print("Target Orientation: ")
     if data.data > 90:
         t_orientation_degree = 90
-    else if data.data < -90:
+    elif data.data < -90:
         t_orientation_degree = -90
     else:
         t_orientation_degree = data.data
