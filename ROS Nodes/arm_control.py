@@ -68,7 +68,7 @@ def talker():
     while not rospy.is_shutdown():
 
         signal = (speed/100)*65535
-        reverse = signal * -1
+        reverse = 65535 - signal
 
         if pow(pow(t_xPos,2)+pow(t_yPos,2)+pow(t_zPos,2),.5)>l_sec+u_sec:
             print("WARNING: Out of reach!")
@@ -76,6 +76,9 @@ def talker():
         #calculate target angles
 
         h_d = math.pow((math.pow(t_xPos,2)+math.pow(t_yPos,2)),.5) #horizontal distance between arm base and target
+
+        if h_d == 0:
+            h_d = .01
 
         tb_angle_temp = math.degrees(math.acos(t_xPos/h_d)) #set target base angle
 
@@ -90,8 +93,11 @@ def talker():
         d_d = math.pow((math.pow(h_d,2)+math.pow(t_zPos,2)),.5) #diagonal distance calculation
 
         te_angle = math.acos((math.pow(h_d,2)+math.pow(t_zPos,2)-math.pow(l_sec,2)-math.pow(u_sec,2))/(2*l_sec*u_sec)) #this is in radians
+        
+        if t_zPos == 0:
+            t_zPos = .01
 
-        ts_angle = math.degrees(math.atan2(h_d/t_zPos)-math.asin(((u_sec*math.sin(te_angle)))/(math.pow(math.pow(h_d,2)+math.pow(t_zPos,2),.5))) #target elbow angle
+        ts_angle = math.degrees(math.atan(h_d/t_zPos)-math.atan((u_sec*math.sin(te_angle))/(l_sec+u_sec*math.cos(te_angle)))) #target elbow angle
 
         te_angle = math.degrees(te_angle) #convert to degrees
 
@@ -101,21 +107,21 @@ def talker():
 
         while abs(b_angle-tb_angle)>.5:
             if b_angle < tb_angle:
-                #pub_base.publish(signal)
+                pub_base.publish(int(signal))
             else:
-                #pub_base.publish(reverse)
+                pub_base.publish(int(reverse))
 
         while abs(s_angle-ts_angle)>.5:
             if s_angle < ts_angle:
-                #pub_shoulder.publish(signal)
+                pub_shoulder.publish(int(signal))
             else:
-                #pub_shoulder.publish(reverse)
+                pub_shoulder.publish(int(reverse))
 
         while abs(e_angle-te_angle)>.5:
             if e_angle < te_angle:
-                #pub_elbow.publish(signal)
+                pub_elbow.publish(int(signal))
             else:
-                #pub_elbow.publish(reverse)
+                pub_elbow.publish(int(reverse))
             
         rate.sleep()
 

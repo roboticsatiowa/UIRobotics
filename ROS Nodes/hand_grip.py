@@ -5,11 +5,10 @@ from std_msgs.msg import Int32
 def callback(data):
     rospy.loginfo(data.data)
 
-def arm_base():
-
-    rospy.init_node('arm_base')
-    rospy.Subscriber('base', Int32, callback)
+def hand_grip():
+    rospy.init_node('hand_grip')
+    rospy.Subscriber('hand_grip',Int32,callback)
     rospy.spin()
 
 if __name__ == '__main__':
-    arm_base()
+    hand_grip()
