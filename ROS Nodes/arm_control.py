@@ -93,7 +93,7 @@ def talker():
         d_d = math.pow((math.pow(h_d,2)+math.pow(t_zPos,2)),.5) #diagonal distance calculation
 
         te_angle = math.acos((math.pow(h_d,2)+math.pow(t_zPos,2)-math.pow(l_sec,2)-math.pow(u_sec,2))/(2*l_sec*u_sec)) #this is in radians
-
+        
         if t_zPos == 0:
             t_zPos = .01
 
