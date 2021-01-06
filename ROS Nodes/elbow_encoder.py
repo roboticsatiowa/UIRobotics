@@ -8,8 +8,8 @@ from std_msgs.msg import Int32
 from digitalio import DigitalInOut, Direction, Pull
 
 def talker():
-    pub_base = rospy.Publisher('base_encoder',Int32,queue_size=10)
-    rospy.init_node('base_encoder')
+    pub_elbow = rospy.Publisher('elbow_encoder',Int32,queue_size=10)
+    rospy.init_node('elbow_encoder')
 
     i2c = busio.I2C(board.SCL,board.SDA)
     pca = adafruit_pca9685.PCA9685(i2c)
@@ -29,7 +29,7 @@ def talker():
     while not rospy.is_shutdown():
 
         if enc.value == True and reset:
-            pub_base.publish(1)
+            pub_elbow.publish(1)
             reset = False
         else if enc.value == False:
             reset = True
