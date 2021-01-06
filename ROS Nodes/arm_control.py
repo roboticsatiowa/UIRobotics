@@ -31,6 +31,7 @@ def t_zPos_callback(data):
     t_zPos = data.data
     print(t_zPos)
 
+#add callback functions
 
 def talker():
     global t_xPos
@@ -60,7 +61,10 @@ def talker():
     rospy.Subscriber('t_xPos',Int32,t_xPos_callback)
     rospy.Subscriber('t_yPos',Int32,t_yPos_callback)
     rospy.Subscriber('t_zPos',Int32,t_zPos_callback)
-    
+
+    rospy.Subscriber('base_encoder',Int32,base_callback)
+    rospy.Subscriber('shoulder_encoder',Int32,shoulder_callback)
+    rospy.Subscriber('elbow_encoder',Int32,elbow_callback)
     
     rate = rospy.Rate(10)
     print("Talker initialized!")
@@ -69,6 +73,7 @@ def talker():
 
         signal = (speed/100)*65535
         reverse = 65535 - signal
+        stopped = 32767
 
         if pow(pow(t_xPos,2)+pow(t_yPos,2)+pow(t_zPos,2),.5)>l_sec+u_sec:
             print("WARNING: Out of reach!")
@@ -110,18 +115,21 @@ def talker():
                 pub_base.publish(int(signal))
             else:
                 pub_base.publish(int(reverse))
+        pub_base.publish(stopped)
 
         while abs(s_angle-ts_angle)>.5:
             if s_angle < ts_angle:
                 pub_shoulder.publish(int(signal))
             else:
                 pub_shoulder.publish(int(reverse))
+        pub_shoulder.publish(stopped)
 
         while abs(e_angle-te_angle)>.5:
             if e_angle < te_angle:
                 pub_elbow.publish(int(signal))
             else:
                 pub_elbow.publish(int(reverse))
+        pub_elbow.publish(stopped)
             
         rate.sleep()
 

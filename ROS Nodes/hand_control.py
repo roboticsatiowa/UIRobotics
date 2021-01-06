@@ -41,6 +41,8 @@ def orientation_degree_callback(data):
         t_orientation_degree = data.data
     print(orientation_degree)
 
+#TODO: add callback functions
+
 def talker():
     global t_grip_percent
     global t_w_angle
@@ -55,6 +57,7 @@ def talker():
 
     forwards = 50000
     reverse = 65535 - forwards
+    stopped = 32767
 
     rospy.init_node('hand_control')
 
@@ -67,6 +70,10 @@ def talker():
     rospy.Subscriber('w_angle',Int32,w_angle_callback)
     rospy.Subscriber('orientation_degree',Int32,orientation_degree_callback)
 
+    rospy.Subscriber('wrist_a_encoder',Int32,wrist_a_callback)
+    rospy.Subscriber('wrist_b_encoder',Int32,wrist_b_callback)
+    rospy.Subscriber('gripper_encoder',Int32,gripper_callback)
+
     while not rospy.is_shutdown():
         while abs(t_orientation_degree - c_orientation_degree > .5):
             if(t_orientation_degree > c_orientation_degree):
@@ -77,6 +84,8 @@ def talker():
                 #go backwards
                 pub_wrist_a.publish(reverse)
                 pub_wrist_b.publish(reverse)
+        pub_wrist_a.publish(stopped)
+        pub_wrist_b.publish(stopped)
         while abs(t_w_angle - c_w_angle > .5):
             if(t_w_angle > c_w_angle):
                 #turn right
@@ -86,6 +95,8 @@ def talker():
                 #turn left
                 pub_wrist_a.publish(reverse)
                 pub_wrist_b.publish(forwards)
+        pub_wrist_a.publish(stopped)
+        pub_wrist_b.publish(stopped)
         while abs(t_grip_percent - c_grip_percent > .5):
             if(t_grip_percent > c_grip_percent):
                 #close more
@@ -93,6 +104,7 @@ def talker():
             else:
                 #open more
                 pub_hand_grip.publish(backwards)
+        pub_hand_grip.publish(stopped)
 
 if __name__ == '__main__':
     try:
