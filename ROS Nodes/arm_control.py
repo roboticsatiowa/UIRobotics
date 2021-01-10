@@ -13,6 +13,8 @@ l_sec = 5 # lower arm section, the one closest to the base
 u_sec = 5
 speed = 100 #movement speed 1-100
 
+status = 0
+
 def t_xPos_callback(data):
     global t_xPos
     print("Target X Position: ")
@@ -31,18 +33,68 @@ def t_zPos_callback(data):
     t_zPos = data.data
     print(t_zPos)
 
-#add callback functions
+def base_callback(data):
+    global status
+    global b_angle
+
+    encoder_constant = 12 #number of encoder turns in a motor shaft turn
+    gear_constant = ??? #number of motor shaft turns in a full join turn
+    angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
+    
+
+    if data.data == 1:
+        if status == 1:
+            b_angle = b_angle + angle_constant
+        else if status == -1:
+            b_angle = b_angle - angle_constant
+        else:
+            print("Motion detected from stationary motor. Something is wrong.")
+
+def shoulder_callback(data):
+    global status
+    global s_angle
+
+    encoder_constant = 12 #number of encoder turns in a motor shaft turn
+    gear_constant = ??? #number of motor shaft turns in a full join turn
+    angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
+    
+
+    if data.data == 1:
+        if status == 1:
+            s_angle = s_angle + angle_constant
+        else if status == -1:
+            s_angle = s_angle - angle_constant
+        else:
+            print("Motion detected from stationary motor. Something is wrong.")
+
+def elbow_callback(data):
+    global status
+    global e_angle
+
+    encoder_constant = 12 #number of encoder turns in a motor shaft turn
+    gear_constant = ??? #number of motor shaft turns in a full join turn
+    angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
+    
+
+    if data.data == 1:
+        if status == 1:
+            e_angle = e_angle + angle_constant
+        else if status == -1:
+            e_angle = e_angle - angle_constant
+        else:
+            print("Motion detected from stationary motor. Something is wrong.")
 
 def talker():
     global t_xPos
     global t_yPos
     global t_zPos
-    global b_angle #TODO: Add feedback from encoders to update these
+    global b_angle 
     global s_angle
     global e_angle
     global l_sec
     global u_sec
     global speed
+    global status
     tb_angle = 0
     ts_angle = 0
     te_angle = 0
@@ -113,23 +165,32 @@ def talker():
         while abs(b_angle-tb_angle)>.5:
             if b_angle < tb_angle:
                 pub_base.publish(int(signal))
+                status = 1
             else:
                 pub_base.publish(int(reverse))
+                status = -1
         pub_base.publish(stopped)
+        status =0 
 
         while abs(s_angle-ts_angle)>.5:
             if s_angle < ts_angle:
                 pub_shoulder.publish(int(signal))
+                status = 1
             else:
                 pub_shoulder.publish(int(reverse))
+                status = -1
         pub_shoulder.publish(stopped)
+        status = 0
 
         while abs(e_angle-te_angle)>.5:
             if e_angle < te_angle:
                 pub_elbow.publish(int(signal))
+                status =1
             else:
                 pub_elbow.publish(int(reverse))
+                status = -1
         pub_elbow.publish(stopped)
+        status = 0
             
         rate.sleep()
 
