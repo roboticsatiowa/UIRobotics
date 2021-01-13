@@ -38,7 +38,7 @@ def base_callback(data):
     global b_angle
 
     encoder_constant = 12 #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns in a full join turn
+    gear_constant = 1 #number of motor shaft turns in a full join turn
     angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
     
 
@@ -55,7 +55,7 @@ def shoulder_callback(data):
     global s_angle
 
     encoder_constant = 12 #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns in a full join turn
+    gear_constant = 27 #number of motor shaft turns in a full join turn
     angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
     
 
@@ -72,7 +72,7 @@ def elbow_callback(data):
     global e_angle
 
     encoder_constant = 12 #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns in a full join turn
+    gear_constant = 27 #number of motor shaft turns in a full join turn
     angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
     
 
@@ -134,7 +134,7 @@ def talker():
 
         h_d = math.pow((math.pow(t_xPos,2)+math.pow(t_yPos,2)),.5) #horizontal distance between arm base and target
 
-        if h_d == 0:
+        if h_d == 0: #prevent dividing by zero
             h_d = .01
 
         tb_angle_temp = math.degrees(math.acos(t_xPos/h_d)) #set target base angle
