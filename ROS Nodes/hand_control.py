@@ -60,8 +60,8 @@ def wrist_a_callback(data):
     global c_w_angle
     global c_orientation_degree
 
-    encoder_constant = ??? #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns in a full join turn
+    encoder_constant = 11 #number of encoder turns in a motor shaft turn
+    gear_constant = 3 #number of motor shaft turns in a full join turn
     angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
 
     if data.data == 1:
@@ -81,8 +81,8 @@ def wrist_b_callback(data):
     global c_w_angle
     global c_orientation_degree
 
-    encoder_constant = ??? #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns in a full join turn
+    encoder_constant = 11 #number of encoder turns in a motor shaft turn
+    gear_constant = 3 #number of motor shaft turns in a full join turn
     angle_constant = 360 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
 
     if data.data == 1:

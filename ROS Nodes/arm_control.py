@@ -9,8 +9,8 @@ t_zPos = 0
 b_angle = 0 #angles are in degrees, not radians
 s_angle = 0
 e_angle = 0
-l_sec = 5 # lower arm section, the one closest to the base
-u_sec = 5
+l_sec = .8636 # lower arm section, the one closest to the base
+u_sec = .8636
 speed = 100 #movement speed 1-100
 
 status = 0
