@@ -101,8 +101,8 @@ def gripper_callback(data):
     global status
     global c_grip_percent
 
-    encoder_constant = ??? #number of encoder turns in a motor shaft turn
-    gear_constant = ??? #number of motor shaft turns to fully open or close
+    encoder_constant = 3 #number of encoder turns in a motor shaft turn
+    gear_constant = 20.25 #number of motor shaft turns to fully open or close
     angle_constant = 100 / (encoder_constant * gear_constant) #joint angle change per encoder pulse
 
     if data.data == 1:
