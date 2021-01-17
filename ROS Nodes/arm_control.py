@@ -12,26 +12,45 @@ e_angle = 0
 l_sec = .8636 # lower arm section, the one closest to the base
 u_sec = .8636
 speed = 100 #movement speed 1-100
+robot_width= .47
 
 status = 0
 
 def t_xPos_callback(data):
+    global t_zPos
+    global t_yPos
     global t_xPos
-    print("Target X Position: ")
-    t_xPos = data.data
-    print(t_xPos)
+    global robot_width
+    if (data.data < 0 and t_yPos < 0 and (-1*robot_width/2 < data.data < robot_width/2)) or t_zPos < -.508:
+        print("Coordinates invalid")
+    else:
+        print("Target X Position: ")
+        t_xPos = data.data
+        print(t_xPos)
 
 def t_yPos_callback(data):
+    global t_zPos
     global t_yPos
-    print("Target Y Position: ")
-    t_yPos = data.data
-    print(t_yPos)
+    global t_xPos
+    global robot_width
+    if (t_zPos < 0 and data.data < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or t_zPos < -.508:
+        print("Coordinates invalid")
+    else:
+        print("Target Y Position: ")
+        t_yPos = data.data
+        print(t_yPos)
 
 def t_zPos_callback(data):
     global t_zPos
-    print("Target Z Position: ")
-    t_zPos = data.data
-    print(t_zPos)
+    global t_yPos
+    global t_xPos
+    global robot_width
+    if (data.data < 0 and t_yPos < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or data.data < -.508:
+        print("Coordinates invalid")
+    else:
+        print("Target Z Position: ")
+        t_zPos = data.data
+        print(t_zPos)
 
 def base_callback(data):
     global status
