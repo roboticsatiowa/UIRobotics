@@ -6,6 +6,8 @@ from time import sleep
 
 def talker():
 
+    maximum = (2**15 - 1)*10
+
     x_left = 0
     y_left = 0
     y_right = 0
@@ -20,8 +22,18 @@ def talker():
     leftTrig = 0
 
     #create publishers
+    pub_xPos = rospy.Publisher('xPos',Int32,queue_size=10)
+    pub_yPos = rospy.Publisher('yPos',Int32,queue_size=10)
+    pub_zPos = rospy.Publisher('zPos',Int32,queue_size=10)
 
-    rospy.init_node('gui')
+    pub_tilt = rospy.Publisher('tilt',Int32,queue_size=10)
+    pub_rotate = rospy.Publisher('rotate',Int32,queue_size=10)
+    pub_open = rospy.Publisher('open',Int32,queue_size=10)
+
+    pub_right = rospy.Publisher('right_wheels',Int32,queue_size=10)
+    pub_left = rospy.Publisher('left_wheels',Int32,queue_size=10)
+
+    rospy.init_node('controller_driver')
 
     while(pub_speed.get_num_connections() == 0):
 	print("No connection!")
@@ -50,16 +62,60 @@ def talker():
                 x_left = event.state
             elif event.code == "ABS_Y":
                 y_left = event.state
-                print(y_left)
             elif event.code == "ABS_RY":
                 y_right = event.state
             
-            if event.code == "RT": #Call Program for Right Trigger
-                rightTrig = 1
-            elif event.code == "LT": #Call Program for Left Trigger
-                leftTrig = 1
+            if event.code == "RT" and mode == 2: #Call Program for Right Trigger
+                o_hand += 5
+            elif event.code == "LT" and mode == 2: #Call Program for Left Trigger
+                o_hand -= 5
         
         #publish
+        if mode == 0:
+            pub_left.publish(y_left)
+            pub_right.publish(y_right)
+        elif mode == 1:
+            x_arm += x_left
+            y_arm += y_right
+            z_arm += y_left
+
+            if x_arm > maximum:
+                x_arm = maximum
+            else if x_arm < -maximum:
+                x_arm = -maximum
+
+            if y_arm > maximum:
+                y_arm = maximum
+            else if y_arm < -maximum:
+                y_arm = -maximum
+
+            if z_arm > maximum:
+                z_arm = maximum
+            else if z_arm < -maximum:
+                z_arm = -maximum
+
+            pub_xPos.publish(x_arm)
+            pub_yPos.publish(y_arm)
+            pub_zPos.publish(z_arm)
+        elif mode == 2:
+            pub_open.publish(o_hand)
+            
+            t_hand += y_left
+            r_hand += y_right
+
+            if t_hand > maximum:
+                t_hand = maximum
+            else if t_hand < -maximum:
+                t_hand = -maximum
+
+            if r_hand > maximum:
+                r_hand = maximum
+            else if r_hand < -maximum:
+                r_hand = -maximum
+
+            pub_tilt.publish(int(90*t_hand/maximum))
+            pub_rotate.publish(int(90*r_hand/maximum))
+
         rate.sleep()
 
 if __name__ == '__main__':
