@@ -21,11 +21,14 @@ def t_xPos_callback(data):
     global t_yPos
     global t_xPos
     global robot_width
-    if (data.data < 0 and t_yPos < 0 and (-1*robot_width/2 < data.data < robot_width/2)) or t_zPos < -.508:
+
+    xPos = data.data / (2**15 - 1)
+    
+    if (xPos < 0 and t_yPos < 0 and (-1*robot_width/2 < xPos < robot_width/2)) or t_zPos < -.508:
         print("Coordinates invalid")
     else:
         print("Target X Position: ")
-        t_xPos = data.data
+        t_xPos = xPos
         print(t_xPos)
 
 def t_yPos_callback(data):
@@ -33,11 +36,14 @@ def t_yPos_callback(data):
     global t_yPos
     global t_xPos
     global robot_width
-    if (t_zPos < 0 and data.data < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or t_zPos < -.508:
+
+    yPos = data.data / (2**15 -1)
+    
+    if (t_zPos < 0 and yPos < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or t_zPos < -.508:
         print("Coordinates invalid")
     else:
         print("Target Y Position: ")
-        t_yPos = data.data
+        t_yPos = yPos
         print(t_yPos)
 
 def t_zPos_callback(data):
@@ -45,11 +51,14 @@ def t_zPos_callback(data):
     global t_yPos
     global t_xPos
     global robot_width
-    if (data.data < 0 and t_yPos < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or data.data < -.508:
+
+    zPos = data.data / (2**15 - 1)
+    
+    if (zPos < 0 and t_yPos < 0 and (-1*robot_width/2 < t_xPos < robot_width/2)) or zPos < -.508:
         print("Coordinates invalid")
     else:
         print("Target Z Position: ")
-        t_zPos = data.data
+        t_zPos = zPos
         print(t_zPos)
 
 def base_callback(data):
