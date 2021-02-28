@@ -24,8 +24,10 @@ def talker():
 
     rospy.init_node('gui')
 
+    '''
     while(pub_speed.get_num_connections() == 0):
-	print("No connection!")
+        print("No connection!")
+    '''
 
     rate = rospy.Rate(10)
 
