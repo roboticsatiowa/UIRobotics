@@ -35,10 +35,10 @@ def talker():
 
     rospy.init_node('controller_driver')
 
-    '''
-    while(pub_speed.get_num_connections() == 0):
+    
+    while(pub_xPos.get_num_connections() == 0 or pub_yPos.get_num_connections() == 0 or pub_zPos.get_num_connections() == 0 or pub_tilt.get_num_connections() == 0 or pub_rotate.get_num_connections() == 0 or pub_open.get_num_connections() == 0 or pub_right.get_num_connections() == 0 or pub_left.get_num_connections() == 0):
         print("No connection!")
-    '''
+    
 
     rate = rospy.Rate(10)
 
@@ -83,17 +83,17 @@ def talker():
 
             if x_arm > maximum:
                 x_arm = maximum
-            else if x_arm < -maximum:
+            elif x_arm < -maximum:
                 x_arm = -maximum
 
             if y_arm > maximum:
                 y_arm = maximum
-            else if y_arm < -maximum:
+            elif y_arm < -maximum:
                 y_arm = -maximum
 
             if z_arm > maximum:
                 z_arm = maximum
-            else if z_arm < -maximum:
+            elif z_arm < -maximum:
                 z_arm = -maximum
 
             pub_xPos.publish(x_arm)
@@ -107,12 +107,12 @@ def talker():
 
             if t_hand > maximum:
                 t_hand = maximum
-            else if t_hand < -maximum:
+            elif t_hand < -maximum:
                 t_hand = -maximum
 
             if r_hand > maximum:
                 r_hand = maximum
-            else if r_hand < -maximum:
+            elif r_hand < -maximum:
                 r_hand = -maximum
 
             pub_tilt.publish(int(90*t_hand/maximum))
