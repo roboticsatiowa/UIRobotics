@@ -5,6 +5,16 @@ from std_msgs.msg import Int32
 
 mode = 0
 
+'''
+0 is doing nothing
+1 test tube 1
+2 test tube 2
+3 test tube 3
+4 test tube 4
+5 agitate
+6 pump on (all other modes have pump off)
+'''
+
 def mode_callback(data):
     global mode
     print("New mode:")
