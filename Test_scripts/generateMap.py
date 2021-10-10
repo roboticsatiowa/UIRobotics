@@ -2,6 +2,10 @@ from urllib.request import urlopen, urlretrieve
 from urllib.parse import urlencode, quote_plus
 import json
 import webbrowser
+from PIL import Image 
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm      
 
 def ifValidLatitude(x):
     try:
@@ -37,13 +41,20 @@ while not ifValidLongitude(lng):
     lng = input("Enter longitude: ")
 # 10/10/2021 Charlie - finished taking in GPS coordinates with valid inputs
 
-def getMapImage(lat, lng):
+
+def getMapImage(lat, lng, zoom = 12):
     urlbase = "http://maps.google.com/maps/api/staticmap?"
     GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
-    args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,12,400,400,"hybrid",lat,lng)
+    args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
     args = args + "&key=" + GOOGLEAPIKEY
     mapURL = urlbase+args
     urlretrieve(mapURL, 'googlemap.png')
 
 getMapImage(lat, lng)
 # getMapImage(38.266,-110.719)
+    img = Image.open('googlemap.png')
+    img.show()
+    
+    
+
+
