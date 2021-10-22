@@ -13,8 +13,17 @@ left_inner = pca.channels[2]
 
 turning = False
 
+mostRecentLeftData = -1
+mostRecentRightData = -1
+
 def callback(data):
     rospy.loginfo(data.data)
+    mostRecentLeftData = data.data
+    
+    if mostRecentLeftData != -1 and mostRecentRightData != -1: # if these have been initialized
+        # if either is less than 2^15 while the other is greater than 2^15, turning is True
+        turning = (mostRecentLeftData - 32768 > 0 and mostRecentRightData - 32768 < 0) or (mostRecentLeftData - 32768 < 0 and mostRecentRightData - 32768 > 0)
+    
     if turning:
         left_outer.duty_cycle = data.data
         left_inner.duty_cycle = data.data * .712
@@ -24,6 +33,11 @@ def callback(data):
     
 def rightCallback(rightData):
     rospy.loginfo(rightData.data)
+    mostRecentRightData= data.data
+    
+    if mostRecentLeftData != -1 and mostRecentRightData != -1: # if these have been initialized
+        # if either is less than 2^15 while the other is greater than 2^15, turning is True
+        turning = (mostRecentLeftData - 32768 > 0 and mostRecentRightData - 32768 < 0) or (mostRecentLeftData - 32768 < 0 and mostRecentRightData - 32768 > 0)
 
 def left_wheels():
     rospy.init_node('left_wheels')
