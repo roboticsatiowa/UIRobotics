@@ -33,7 +33,7 @@ def callback(data):
     
 def rightCallback(rightData):
     rospy.loginfo(rightData.data)
-    mostRecentRightData= data.data
+    mostRecentRightData = rightData.data
     
     if mostRecentLeftData != -1 and mostRecentRightData != -1: # if these have been initialized
         # if either is less than 2^15 while the other is greater than 2^15, turning is True
