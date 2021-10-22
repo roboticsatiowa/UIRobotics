@@ -1,7 +1,9 @@
 # importing libraries
 from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QApplication
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtGui import *
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import *
 import sys
 
@@ -12,10 +14,10 @@ class Window(QMainWindow):
     	super().__init__()
 
     	# setting title
-    	self.setWindowTitle("Timer")
+    	self.setWindowTitle("Rover GUI")
 
     	# setting geometry
-    	self.setGeometry(800,800,1000,800)
+    	self.setGeometry(1000,1000,1000,800)
 
     	# calling method
     	self.UiComponents()
@@ -33,31 +35,39 @@ class Window(QMainWindow):
     	# start flag
         self.start = False
 
+        # creating image window as camera feed placeholder
+        self.label = QLabel(self)
+        self.image = image.open('rover.png')
+        image.open('rover.png')
+        self.pixmap = QPixmap('rover.png')
+        self.label.setPixmap(self.pixmap)
+        self.label.setGeometry(100,100,100,100)
+
     	# creating push button to get time in seconds
         button = QPushButton("Set time", self)
-        button.setGeometry(500, 100, 150, 50)
+        button.setGeometry(325, 530, 150, 50)
         button.clicked.connect(self.get_seconds)
 
     	# creating label to show the seconds
         self.label = QLabel("//TIMER//", self)
-        self.label.setGeometry(425, 200, 300, 50)
+        self.label.setGeometry(340, 470, 300, 50)
         self.label.setStyleSheet("border : 3px solid black")
         self.label.setFont(QFont('Times', 15))
         self.label.setAlignment(Qt.AlignCenter)
 
     	# creating start button
         start_button = QPushButton("Start", self)
-        start_button.setGeometry(500, 300, 150, 50)
+        start_button.setGeometry(500, 530, 150, 50)
         start_button.clicked.connect(self.start_action)
 
         # creating pause button
         pause_button = QPushButton("Pause", self)
-        pause_button.setGeometry(500, 370, 150, 50)
+        pause_button.setGeometry(325, 600, 150, 50)
         pause_button.clicked.connect(self.pause_action)
 
     	# creating reset button
         reset_button = QPushButton("Reset", self)
-        reset_button.setGeometry(500, 440, 150, 50)
+        reset_button.setGeometry(500, 600, 150, 50)
         reset_button.clicked.connect(self.reset_action)
 
     	# creating a timer object
@@ -69,17 +79,17 @@ class Window(QMainWindow):
 
         # creating stop button
         stopButton = QPushButton("STOP ROVER", self)
-        stopButton.setGeometry(125, 320, 200, 50)
+        stopButton.setGeometry(50, 400, 200, 100)
         stopButton.clicked.connect(self.stop_action)
 
         # creating auto mode button
         autoButton = QPushButton("AUTO MODE", self)
-        autoButton.setGeometry(125, 440, 200, 50)
+        autoButton.setGeometry(50, 525, 200, 100)
         autoButton.clicked.connect(self.auto_action)
 
         # creating manual mode button
         manualButton = QPushButton("MANUAL MODE", self)
-        manualButton.setGeometry(125, 380, 200, 50)
+        manualButton.setGeometry(50, 650, 200, 100)
         manualButton.clicked.connect(self.manual_action)
 
 
