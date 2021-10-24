@@ -1,5 +1,13 @@
-# Robotics at Iowa
+# ROS Example (with GUI)
 
-Branch for all things GUI
+```
+$ mkdir robotics_ws
 
-"I stole this code from Google; why isn't it working..." - Charlie Killian
+$ cd robotics_ws
+
+$ git clone -b gui-ros https://github.com/roboticsatiowa/UIRobotics.git .
+
+$ catkin_make
+
+$ bash ./launch_rover.sh
+```
