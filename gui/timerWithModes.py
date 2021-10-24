@@ -35,13 +35,27 @@ class Window(QMainWindow):
     	# start flag
         self.start = False
 
-        # creating image window as camera feed placeholder
-        self.label = QLabel(self)
-        self.image = image.open('rover.png')
-        image.open('rover.png')
-        self.pixmap = QPixmap('rover.png')
-        self.label.setPixmap(self.pixmap)
-        self.label.setGeometry(100,100,100,100)
+        #creating label as camera feed placeholder
+
+        label1 = QLabel("Camera Feed 1", self)
+        label1.setGeometry(50,50,400,300)
+        label1.setStyleSheet("border: 3px solid orange")
+        label1.setFont(QFont('Times', 15))
+        label1.setAlignment(Qt.AlignCenter)
+
+        label2 = QLabel("Camera Feed 2", self)
+        label2.setGeometry(550,50, 400,300)
+        label2.setStyleSheet("border: 3px solid orange")
+        label2.setFont(QFont('Times', 15))
+        label2.setAlignment(Qt.AlignCenter)
+
+        # old -> might be helpful in future for loading image
+        #pixmap = QPixmap('rover.png')
+        #label_image.setPixmap(pixmap)
+        #self.setCentralWidget(label_image)
+        #label_image.move(100,500)
+        #self.resize(pixmap.width(), pixmap.height())
+
 
     	# creating push button to get time in seconds
         button = QPushButton("Set time", self)
