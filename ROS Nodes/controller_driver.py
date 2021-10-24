@@ -74,8 +74,8 @@ def talker():
         
         #publish
         if mode == 0:
-            pub_left.publish(y_left)
-            pub_right.publish(y_right)
+            pub_left.publish(y_left+2**15)
+            pub_right.publish(y_right+2**15)
         elif mode == 1:
             x_arm += x_left
             y_arm += y_right
