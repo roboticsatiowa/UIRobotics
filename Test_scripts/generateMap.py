@@ -21,7 +21,7 @@ class Window(QMainWindow):
         self.setWindowTitle("PyQt5 Slider")
         self.setWindowIcon(QIcon("python.png"))
         self.hbox = QHBoxLayout()
-        self.gps = QWidget(self)
+        # self.gps = QWidget(self)
         self.left = 1000
         self.top = 1000
         self.width = 640
@@ -29,14 +29,19 @@ class Window(QMainWindow):
         # self.resize(self.width(), self.height())
 
         # self.GPS()
-        theSlider = sliderdemo()
-        theGPS = gps()
+        #layout = QVBoxLayout()
+        theSlider = sliderdemo(self)
+        self.setCentralWidget(theSlider)
+        #layout.addWidget(theSlider)
+        theGPS = gps(self)
+        # self.setCentralWidget(theGPS)
+        #layout.addWidget(theGPS)
 
 
 
 
 class sliderdemo(QWidget):
-   def __init__(self, parent = None):
+   def __init__(self, parent):
       super(sliderdemo, self).__init__(parent)
 
       layout = QVBoxLayout()
@@ -63,7 +68,7 @@ class sliderdemo(QWidget):
       self.label.setText(str(self.sl.value()))
 
 
-class gps():
+class gps(QWidget):
         zm = 12
 
     # Checks to see if user input is valid (-90 - 90)
@@ -109,6 +114,12 @@ class gps():
             args = args + "&key=" + GOOGLEAPIKEY
             mapURL = urlbase+args
             urlretrieve(mapURL, 'googlemap.png')
+            # img = Image.open('googlemap.png')
+            # img.show()
+            label = QLabel(self)
+            pixmap = QPixmap('googlemap.png')
+            label.setPixmap(pixmap)
+            # self.resize(pixmap.width(), pixmap.height())
 
 # def main():
 #    app = QApplication(sys.argv)
@@ -123,8 +134,8 @@ class gps():
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = Window()
-    ex = sliderdemo()
-    ex.show()
+    # ex = sliderdemo()
+    # ex.show()
     win.show()
 
     sys.exit(app.exec_())
