@@ -48,7 +48,7 @@ def talker():
 
         events = get_gamepad()
 
-        for event in events
+        for event in events:
             #print(event.ev_type, event.code, event.state)
             if event.code == "BTN_WEST": #Switch to drive mode
                mode = 0
