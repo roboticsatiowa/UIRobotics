@@ -1,0 +1,2 @@
+rover
+-DCATKIN_DEVEL_PREFIX=/home/will/robotics_ws/devel -DCMAKE_INSTALL_PREFIX=/home/will/robotics_ws/install -G Unix Makefiles
