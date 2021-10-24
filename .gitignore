@@ -1,6 +1,7 @@
-*/__pycache__/
-*.DS_Store
-*.pyc
-*build
-*devel
-*include
+**/__pycache__/
+**/.DS_Store
+**/.pyc
+/build
+/devel
+*/include
+.catkin_workspace
