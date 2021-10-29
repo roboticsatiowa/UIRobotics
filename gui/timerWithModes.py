@@ -7,7 +7,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import *
 import sys
 
-
+#commit comment
 class Window(QMainWindow):
 
     def __init__(self):
@@ -36,6 +36,21 @@ class Window(QMainWindow):
         self.start = False
 
         #creating label as camera feed placeholder
+        pic = QLabel(self)
+        pixmap = QPixmap("rover1.png")
+        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
+        pic.setPixmap(smaller_pixmap)
+        pic.resize(400,300)
+        pic.move(50,50)
+        pic.show()
+
+        pic1 = QLabel(self)
+        pixmap2 = QPixmap("astronaut.png")
+        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
+        pic1.setPixmap(smaller_pixmap2)
+        pic1.resize(400,300)
+        pic1.move(550,50)
+        pic1.show()
 
         label1 = QLabel("Camera Feed 1", self)
         label1.setGeometry(50,50,400,300)
@@ -48,14 +63,6 @@ class Window(QMainWindow):
         label2.setStyleSheet("border: 3px solid orange")
         label2.setFont(QFont('Times', 15))
         label2.setAlignment(Qt.AlignCenter)
-
-        # old -> might be helpful in future for loading image
-        #pixmap = QPixmap('rover.png')
-        #label_image.setPixmap(pixmap)
-        #self.setCentralWidget(label_image)
-        #label_image.move(100,500)
-        #self.resize(pixmap.width(), pixmap.height())
-
 
     	# creating push button to get time in seconds
         button = QPushButton("Set time", self)
@@ -152,6 +159,9 @@ class Window(QMainWindow):
 
 		# getting seconds and flag
         second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
+        mins = second/60
+        hrs = mins/60
+        second = second%3600
 
 		# if flag is true
         if done:
@@ -159,7 +169,8 @@ class Window(QMainWindow):
             self.count = second * 10
 
 			# setting text to the label
-            self.label.setText(str(second))
+            self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
+            #self.label.setText(str(second))
 
     def start_action(self):
 		# making flag true
