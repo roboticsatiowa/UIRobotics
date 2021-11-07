@@ -18,36 +18,44 @@ class ExampleWindow(QMainWindow):
         super().__init__()
         self.windowsize = windowsize
         self.initUI()
-    def refresh(self):
-        pixmap2 = QPixmap('googlemap.png')
-        self.image2 = QLabel(widget)
-        self.image2.setPixmap(pixmap2)
-        self.image2.setFixedSize(pixmap2.size())
     def initUI(self):
         self.setFixedSize(self.windowsize)
         self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
 
-        widget = QWidget()
-        self.setCentralWidget(widget)
+        self.widget = QWidget()
+        self.setCentralWidget(self.widget)
         self.theSlider = sliderdemo(self)
         '''
         self.image = QLabel()
         self.image.setPixmap(pixmap1)
         '''
-        layout_box = QHBoxLayout(widget)
+        layout_box = QHBoxLayout(self.widget)
         layout_box.setContentsMargins(0, 0, 0, 0)
         layout_box.addWidget(self.theSlider)
-        pixmap2 = QPixmap('googlemap.png')
-        self.image2 = QLabel(widget)
-        self.image2.setPixmap(pixmap2)
-        self.image2.setFixedSize(pixmap2.size())
-        self.theSlider.sl.valueChanged.connect(self.image2.clear)
+        self.pixmap2 = QPixmap(App.getMapImage(44, -96, self.theSlider.sl.value()))
+        self.image2 = QLabel(self.widget)
+        self.image2.setPixmap(self.pixmap2)
+        self.image2.setFixedSize(self.pixmap2.size())
         self.theSlider.sl.valueChanged.connect(self.refresh)
-
-            
         
         p = self.geometry().bottomRight() - self.image2.geometry().bottomRight() - QPoint(100, 100)
         self.image2.move(p)
+        
+    def test(self):
+        print("hello")
+        
+    def refresh(self):
+    
+        self.image2.clear()
+        self.pixmap2 = QPixmap('googlemap.png')
+        # self.image2 = QLabel(self.widget)
+        self.image2.setPixmap(self.pixmap2)
+        self.image2.setFixedSize(self.pixmap2.size())
+            
+        print("H")
+        #self.theSlider.sl.valueChanged.connect(self.image2.clear)
+    
+        
 class App(QWidget):
 
     def __init__(self):
@@ -65,6 +73,10 @@ class App(QWidget):
             args = args + "&key=" + GOOGLEAPIKEY
             mapURL = urlbase+args
             urlretrieve(mapURL, 'googlemap.png')
+            img = QPixmap('googlemap.png')
+            print("Y")
+            return img
+        
             
             '''
     def initUI(self):
