@@ -9,43 +9,47 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from matplotlib.widgets import Slider, Button
 import sys
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import (QWidget, QSlider, QHBoxLayout, QVBoxLayout, QLabel, QMainWindow, QApplication, QGridLayout, QVBoxLayout, QScrollArea)
-from PyQt5.QtGui import QIcon, QFont, QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 # from ui_stackedWidget import Ui_StackedWidget
 
-class Window(QWidget):
-    def __init__(self):
+class ExampleWindow(QMainWindow):
+    def __init__(self, windowsize):
         super().__init__()
-        self.setGeometry(800,800,1600,800)
-        self.setWindowTitle("PyQt5 Slider")
-        self.setWindowIcon(QIcon("python.png"))
-        self.layout = QVBoxLayout()
-        self.scrollArea = QScrollArea()
-        self.scrollArea.setWidgetResizable(True)
-        self.setLayout(self.layout)
-        # self.gps = QWidget(self)
-        self.left = 1000
-        self.top = 1000
-        self.width = 640
-        self.height = 480
-
-        self.container = QWidget()
-        self.gridLayout = QGridLayout(self.container)
-        self.scrollArea.setWidget(self.container)
-        self.layout.addWidget(self.scrollArea)
-
-        # self.resize(self.width(), self.height())
-
-
-        self.gps = GPS()
-        self.slider = sliderdemo()
-        self.layout.addWidget(self.gps)
-        self.layout.addWidget(self.slider)
-
-
-
+        self.windowsize = windowsize
+        self.initUI()
+    def initUI(self):
+        self.setFixedSize(self.windowsize)
+        self.setWindowFlags(Qt.CustomizeWindowHint | Qt.FramelessWindowHint)
+        #create widget
+        self.widget = QWidget()
+        self.setCentralWidget(self.widget)
+        #add slider widget
+        self.theSlider = sliderdemo(self)
+        
+        layout_box = QHBoxLayout(self.widget)
+        layout_box.setContentsMargins(0, 0, 0, 0)
+        layout_box.addWidget(self.theSlider)
+        #add pixmap widget
+        self.pixmap2 = QPixmap(App.getMapImage(41.6, -91.5, self.theSlider.sl.value()))
+        self.image2 = QLabel(self.widget)
+        self.image2.setPixmap(self.pixmap2)
+        self.image2.setFixedSize(self.pixmap2.size())
+        self.theSlider.sl.valueChanged.connect(self.refresh)
+        
+        p = self.geometry().bottomRight() - self.image2.geometry().bottomRight() - QPoint(100, 100)
+        self.image2.move(p)
+        
+        
+    def refresh(self):
+    
+        self.image2.clear()
+        self.pixmap2 = QPixmap('googlemap.png')
+        # self.image2 = QLabel(self.widget)
+        self.image2.setPixmap(self.pixmap2)
+        #self.image2.setFixedSize(self.pixmap2.size())
+        #self.theSlider.sl.valueChanged.connect(self.image2.clear)
 
 
 class sliderdemo(QWidget):
