@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QStatusBar, QToolBar
 from PyQt5.QtWidgets import QGridLayout
@@ -79,5 +80,3 @@ if __name__ == '__main__':
     win.show()
     Ctrl(win=win)
     sys.exit(app.exec_())
-    
-    
