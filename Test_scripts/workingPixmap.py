@@ -9,34 +9,31 @@ class ExampleWindow(QMainWindow):
         super().__init__()
         self.windowsize = windowsize
         self.initUI()
+
     def initUI(self):
         self.setFixedSize(self.windowsize)
         self.widget = QWidget()
         self.setCentralWidget(self.widget)
-        self.theSlider = sliderdemo(self)
+        self.theSlider = slider(self)
 
         layout_box = QHBoxLayout(self.widget)
         layout_box.addWidget(self.theSlider)
-        self.pixmap2 = QPixmap(App.getMapImage(44, -96, self.theSlider.sl.value()))
+        self.pixmap2 = QPixmap(GPS.getMapImage(44, -96, self.theSlider.sl.value()))
         self.image2 = QLabel(self.widget)
         self.image2.setPixmap(self.pixmap2)
         self.image2.setFixedSize(self.pixmap2.size())
         self.theSlider.sl.valueChanged.connect(self.refresh)
 
-        p = self.geometry().bottomRight() - self.image2.geometry().bottomRight() - QPoint(100, 100)
-        self.image2.move(p)
-
+        gpsGeomoetry = self.geometry().bottomRight() - self.image2.geometry().bottomRight() - QPoint(100, 100)
+        self.image2.move(gpsGeomoetry)
 
     def refresh(self):
-
         self.image2.clear()
         self.pixmap2 = QPixmap('googlemap.png')
         self.image2.setPixmap(self.pixmap2)
         self.image2.setFixedSize(self.pixmap2.size())
 
-
-class App(QWidget):
-
+class GPS(QWidget):
     def __init__(self):
         super().__init__()
         self.title = 'GPS'
@@ -45,6 +42,7 @@ class App(QWidget):
         self.width = 640
         self.height = 450
         self.initUI()
+
     def getMapImage(lat, lng, zoom):
             urlbase = "http://maps.google.com/maps/api/staticmap?"
             GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
@@ -55,10 +53,9 @@ class App(QWidget):
             img = QPixmap('googlemap.png')
             return img
 
-
-class sliderdemo(QWidget):
+class slider(QWidget):
    def __init__(self, parent):
-      super(sliderdemo, self).__init__(parent)
+      super(slider, self).__init__(parent)
 
       layout = QVBoxLayout()
       self.l1 = QLabel("Zoom")
@@ -81,8 +78,7 @@ class sliderdemo(QWidget):
 
    def valuechange(self):
       self.label.setText(str(self.sl.value()))
-      App.getMapImage(43, -96, self.sl.value())
-
+      GPS.getMapImage(43, -96, self.sl.value())
 
 
 if __name__ == '__main__':
