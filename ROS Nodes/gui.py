@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import rospy
 from std_msgs.msg import Int32
 
@@ -44,7 +45,7 @@ def talker():
         grip_percent = int(grip_key)
         orientation_degree = int(o_key)
         w_angle = int(w_key)
-        
+
         pub_speed.publish(speed)
 
         pub_status.publish(status)
@@ -56,7 +57,7 @@ def talker():
         pub_angle.publish(w_angle)
 
         rate.sleep()
-    
+
 
 
 if __name__ == '__main__':
