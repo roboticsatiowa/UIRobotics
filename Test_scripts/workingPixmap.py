@@ -4,6 +4,35 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+def ifValidLatitude(x):
+       try:
+           x = float(x)
+       except:
+           if not isinstance(x, float):
+               print("Invalid input")
+               return False
+       if x > 90 or x < -90:
+           print("Invalid input")
+           return False
+       return True
+def ifValidLongitude(x):
+        try:
+            x = float(x)
+        except:
+            if not isinstance(x, float):
+                print("Invalid input")
+                return False
+        if x > 180 or x < -180:
+            print("Invalid input")
+            return False
+        return True
+lat = input("Enter latitude: ")
+while not ifValidLatitude(lat):
+    lat = input("Enter latitude: ")
+lng = input("Enter longitude: ")
+while not ifValidLongitude(lng):
+    lng = input("Enter longitude: ")
+    
 class ExampleWindow(QMainWindow):
     def __init__(self, windowsize):
         super().__init__()
@@ -18,7 +47,7 @@ class ExampleWindow(QMainWindow):
 
         layout_box = QHBoxLayout(self.widget)
         layout_box.addWidget(self.theSlider)
-        self.pixmap2 = QPixmap(GPS.getMapImage(44, -96, self.theSlider.sl.value()))
+        self.pixmap2 = QPixmap(GPS.getMapImage(lat, lng, self.theSlider.sl.value()))
         self.image2 = QLabel(self.widget)
         self.image2.setPixmap(self.pixmap2)
         self.image2.setFixedSize(self.pixmap2.size())
@@ -78,7 +107,7 @@ class slider(QWidget):
 
    def valuechange(self):
       self.label.setText(str(self.sl.value()))
-      GPS.getMapImage(43, -96, self.sl.value())
+      GPS.getMapImage(lat, lng, self.sl.value())
 
 
 if __name__ == '__main__':
