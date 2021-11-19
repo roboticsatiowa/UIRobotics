@@ -112,7 +112,11 @@ class Window(QMainWindow):
         manualButton = QPushButton("MANUAL MODE", self)
         manualButton.setGeometry(50, 650, 200, 100)
         manualButton.clicked.connect(self.manual_action)
-
+        
+        #creating latitude input text box
+        latitudeButton = QPushButton("Set Latitude", self)
+        latitudeButton.setGeometry(725, 650, 150, 50)
+        latitudeButton.clicked.connect(self.getLatitude)
 
     # method called by stop button
     def stop_action(self):
@@ -171,7 +175,11 @@ class Window(QMainWindow):
 			# setting text to the label
             self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
             #self.label.setText(str(second))
-
+    #method to get latitude
+    def getLatitude(self):
+        latitude = QInputDialog.getDouble(self, "Latitude", "Enter Latitude")
+        QInputDialog.doubleMaximum(90)
+        QInputDialog.doubleMinimum(-90)
     def start_action(self):
 		# making flag true
         self.start = True
