@@ -50,11 +50,13 @@ class Window(QMainWindow):
 
     def sendAuto(self):
         msg="AUTO"
-        pub_mode.publish(msg)
+        if not rospy.is_shutdown():
+            pub_mode.publish(msg)
 
     def sendTeleop(self):
         msg="TELEOP"
-        pub_mode.publish(msg)
+        if not rospy.is_shutdown():
+            pub_mode.publish(msg)
 
 class Ctrl:
     """Controller class."""
@@ -70,13 +72,15 @@ class Ctrl:
 
 
 if __name__ == '__main__':
+    try:
+        pub_mode=rospy.Publisher('mode', String, queue_size=10)
+        rospy.init_node('gui')
+        rate = rospy.Rate(10)
 
-    pub_mode=rospy.Publisher('mode', String, queue_size=10)
-    rospy.init_node('gui')
-    rate = rospy.Rate(10)
-
-    app = QApplication(sys.argv)
-    win = Window()
-    win.show()
-    Ctrl(win=win)
-    sys.exit(app.exec_())
+        app = QApplication(sys.argv)
+        win = Window()
+        win.show()
+        Ctrl(win=win)
+        sys.exit(app.exec_())
+    except rospy.ROSInterruptException:
+        pass
