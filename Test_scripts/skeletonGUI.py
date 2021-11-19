@@ -25,6 +25,24 @@ class Window(QMainWindow):
     	# showing all the widgets
     	self.show()
 
+    def valuechange(slider, self):
+        sliderLabel = QLabel()
+        sliderLabel.setGeometry(700, 650, 10, 10)
+        sliderLabel.setStyleSheet("border: 3px solid orange")
+        sliderLabel.setFont(QFont('Times', 15))
+        sliderLabel.setAlignment(Qt.AlignCenter)
+
+    def getMapImage(self, lat, lng, zoom):
+        urlbase = "http://maps.google.com/maps/api/staticmap?"
+        GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
+        args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
+        args = args + "&key=" + GOOGLEAPIKEY
+        mapURL = urlbase+args
+        urlretrieve(mapURL, 'googlemap.png')
+        img = QPixmap('googlemap.png')
+        return img
+
+
     # method for widgets
     def UiComponents(self):
 
@@ -66,7 +84,7 @@ class Window(QMainWindow):
 
 
         # GPS Container
-        label3 = QLabel("GPS", self)
+        label3 = ("GPS", self)
         label3.setGeometry(700, 400, 200,200)
         label3.setStyleSheet("border: 3px solid orange")
         label3.setFont(QFont('Times', 15))
@@ -122,6 +140,17 @@ class Window(QMainWindow):
         manualButton = QPushButton("MANUAL MODE", self)
         manualButton.setGeometry(50, 650, 200, 100)
         manualButton.clicked.connect(self.manual_action)
+
+        # Creating slider
+        slider = QSlider(Qt.Horizontal, self)
+        slider.setMinimum(1)
+        slider.setMaximum(24)
+        slider.setValue(12)
+        slider.setTickPosition(QSlider.TicksBelow)
+        slider.setTickInterval(1)
+        slider.setGeometry(700, 600, 200, 50)
+        slider.valueChanged.connect(self.valuechange)
+
 
 
     # method called by stop button
