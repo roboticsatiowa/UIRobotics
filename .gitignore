@@ -1,2 +1,8 @@
-*/__pycache__/
-*/.DS_Store
+**/__pycache__/
+**/.DS_Store
+**/.pyc
+/build
+/devel
+*/include
+.catkin_workspace
+src/CMakeLists.txt
