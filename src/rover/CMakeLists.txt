@@ -159,10 +159,30 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+    src/arm_base.py
+    src/arm_control.py
+    src/arm_elbow.py
+    src/arm_shoulder.py
+    src/base_encoder.py
+    src/controller_driver.py
+    src/elbow_encoder.py
+    src/gps.py
+    src/gripper_encoder.py
+    src/gui.py
+    src/hand_control.py
+    src/hand_grip.py
+    src/left_wheels.py
+    src/right_wheels.py
+    src/science_kit.py
+    src/shoulder_encoder.py
+    src/wheel_control.py
+    src/wrist_a_encoder.py
+    src/wrist_a.py
+    src/wrist_b_encoder.py
+    src/wrist_b.py
+    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
