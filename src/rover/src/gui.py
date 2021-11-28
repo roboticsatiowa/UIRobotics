@@ -75,7 +75,7 @@ if __name__ == '__main__':
     try:
         pub_mode=rospy.Publisher('mode', String, queue_size=10)
         rospy.init_node('gui')
-        rate = rospy.Rate(10)
+        rate = rospy.Rate(10) # currently not used
 
         app = QApplication(sys.argv)
         win = Window()
