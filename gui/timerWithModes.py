@@ -6,6 +6,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import *
 import sys
+import time
+import datetime
 
 #commit comment
 class Window(QMainWindow):
@@ -136,6 +138,37 @@ class Window(QMainWindow):
     def manual_action(self):
         print("ROVER IN MANUAL MODE")
 
+
+
+    # new timer class?
+    #def countdown(hr, min, sec):
+
+        # calculate the total number of Seconds
+    #    total_seconds = hr * 3600 + min * 60 + sec
+
+        # while loop that checks if total_seconds reaches zero
+        # if not zero, decrement total time by one second
+    #    while total_seconds > 0;
+
+            # timer represents time left on countdown
+    #        timer = datetime.timedelta(seconds = total_seconds)
+
+            # print time left on timer
+    #        print(timer, end="\r")
+
+            # delats the program one second
+    #        time.sleep(1)
+
+            # reduces total time by one second
+    #        total_seconds -= 1
+
+# inputs for mins, hrs, seconds on timer
+#hrs = input("Hours: ")
+#min = input("Minutes: ")
+#sec = input("Seconds: ")
+
+
+
 	# method called by timer
     def showTime(self):
 
@@ -169,9 +202,6 @@ class Window(QMainWindow):
 
 		# getting seconds and flag
         second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
-        mins = second/60
-        hrs = mins/60
-        second = second%3600
 
 		# if flag is true
         if done:
@@ -179,8 +209,10 @@ class Window(QMainWindow):
             self.count = second * 10
 
 			# setting text to the label
-            self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
-            #self.label.setText(str(second))
+            #conversion = datetime.timedelta(seconds = self.count)
+            #converted_time = str(conversion)
+            #self.label.setText(converted_time)
+            self.label.setText(str(second))
 
     def start_action(self):
 		# making flag true
