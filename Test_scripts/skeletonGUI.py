@@ -84,7 +84,7 @@ class Window(QMainWindow):
 
 
         # GPS Container
-        label3 = ("GPS", self)
+        label3 = QLabel("GPS", self)
         label3.setGeometry(700, 400, 200,200)
         label3.setStyleSheet("border: 3px solid orange")
         label3.setFont(QFont('Times', 15))
