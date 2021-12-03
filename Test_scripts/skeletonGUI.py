@@ -115,8 +115,20 @@ class Window(QMainWindow):
         
         #creating latitude input text box
         latitudeButton = QPushButton("Set Latitude", self)
-        latitudeButton.setGeometry(725, 650, 150, 50)
+        latitudeButton.setGeometry(725, 650, 100, 50)
         latitudeButton.clicked.connect(self.getLatitude)
+        
+        #creating longitude input text box
+        longitudeButton = QPushButton("Set Latitude", self)
+        longitudeButton.setGeometry(850, 650, 100, 50)
+        longitudeButton.clicked.connect(self.getLongitude)
+        
+        #zoom slider
+        toolbar = self.addToolBar("toolbar")
+        self.addToolBar(toolbar)
+        toolbar.setGeometry(725, 750, 300, 50)
+        self.slider = QSlider(QtCore.Qt.Horizontal)
+        toolbar.addWidget(self.slider)
 
     # method called by stop button
     def stop_action(self):
@@ -177,9 +189,15 @@ class Window(QMainWindow):
             #self.label.setText(str(second))
     #method to get latitude
     def getLatitude(self):
-        latitude = QInputDialog.getDouble(self, "Latitude", "Enter Latitude")
-        QInputDialog.doubleMaximum(90)
-        QInputDialog.doubleMinimum(-90)
+        latitude, ok = QInputDialog.getDouble(self, "Latitude", "Enter Latitude", 0, -90, 90)
+        if ok:
+            return latitude
+    #method to get longitude
+    def getLongitude(self):
+        longitude, ok = QInputDialog.getDouble(self, "Longitude", "Enter Longitude", 0, -180, 180)
+        if ok:
+            return longitude
+
     def start_action(self):
 		# making flag true
         self.start = True
@@ -203,8 +221,7 @@ class Window(QMainWindow):
 
 		# setting label text
         self.label.setText("//TIMER//")
-
-
+        
 
 # create pyqt5 app
 App = QApplication(sys.argv)
