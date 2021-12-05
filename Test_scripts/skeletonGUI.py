@@ -50,6 +50,8 @@ class Window(QMainWindow):
     	# variables
     	# count variable
         self.count = 0
+        self.latitude = 41.6
+        self.longitude = -91.5
 
     	# start flag
         self.start = False
