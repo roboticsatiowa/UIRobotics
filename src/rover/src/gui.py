@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QPushButton
 from PyQt5.QtWidgets import QVBoxLayout
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import pyqtSlot, Qt
+from PyQt5.QtGui import QIcon, QPixmap, QImage
 
 from functools import partial
 import cv2
@@ -35,7 +36,9 @@ class Window(QMainWindow):
         self.setCentralWidget(self._centralWidget)
         self._centralWidget.setLayout(self.generalLayout)
 
+        # create gui
         self._createButtons()
+        self._createVideoFeed()
 
     def _createButtons(self):
         """Create the buttons."""
@@ -53,9 +56,25 @@ class Window(QMainWindow):
         # Add buttonsLayout to the general layout
         self.generalLayout.addLayout(buttonsLayout)
 
+    def _createVideoFeed(self):
+        self.vid = QLabel(self)
+        self.vid.resize(100, 100)
+        self.vid.move(0, 0)
+
+        self.generalLayout.addWidget(self.vid)
+
+
     def _camera_color_callback(self, data):
         np_frame = np.fromstring(data.data, np.uint8)
-        self.frame = cv2.imdecode(np_frame, cv2.IMREAD_COLOR)
+        frame = cv2.imdecode(np_frame, cv2.IMREAD_COLOR)
+        rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        h, w, ch = rgb_image.shape
+        bytes_per_line = ch * w
+        convert_to_Qt_format = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        p = convert_to_Qt_format.scaled(400, 400, Qt.KeepAspectRatio)
+
+        pixmap = QPixmap(QPixmap.fromImage(p))
+        self.vid.setPixmap(pixmap)
 
     def sendAuto(self):
         msg="AUTO"
