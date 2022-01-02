@@ -20,95 +20,97 @@ from sensor_msgs.msg import CompressedImage
 
 
 class Window(QMainWindow):
-    """Main Window."""
-    def __init__(self, parent=None):
-        """Initializer."""
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
 
+        # initialize
+        self.window_w = 1000
+        self.window_h = 500
+
+        # ros pub and subs
         self.pub_mode = rospy.Publisher('mode', String, queue_size=10)
         rospy.Subscriber('/camera/color/image_raw/compressed', CompressedImage, self._camera_color_callback)
 
+        # create window
         self.setWindowTitle('Robotics at Iowa GUI')
-        self.setFixedSize(1000, 500)
+        self.setFixedSize(self.window_w, self.window_h)
 
-        self.generalLayout = QVBoxLayout()
-        self._centralWidget = QWidget(self)
-        self.setCentralWidget(self._centralWidget)
-        self._centralWidget.setLayout(self.generalLayout)
+        # create general layout
+        # TODO: make cleaner
+        self.general_layout = QVBoxLayout()
+        self.central_widget = QWidget(self)
+        self.setCentralWidget(self.central_widget)
+        self.central_widget.setLayout(self.general_layout)
 
-        # create gui
-        self._createButtons()
-        self._createVideoFeed()
+        # create gui within layout
+        self._create_video_feed()
+        self._create_buttons()
 
-    def _createButtons(self):
-        """Create the buttons."""
+    def _create_buttons(self):
+        # buttons dict
         self.buttons = {}
-        buttonsLayout = QGridLayout()
-        # Button text | position on the QGridLayout
-        buttons = {'AUTO': (0, 0),
-                   'TELEOP': (0,1)
-                  }
-        # Create the buttons and add them to the grid layout
+        buttons = {'AUTO': (0, 0), 'TELEOP': (0,1)}
+
+        # create the buttons and add them to the grid layout
+        buttons_layout = QGridLayout()
         for btnText, pos in buttons.items():
             self.buttons[btnText] = QPushButton(btnText)
             self.buttons[btnText].setFixedSize(150, 40)
-            buttonsLayout.addWidget(self.buttons[btnText], pos[0], pos[1])
-        # Add buttonsLayout to the general layout
-        self.generalLayout.addLayout(buttonsLayout)
+            buttons_layout.addWidget(self.buttons[btnText], pos[0], pos[1])
 
-    def _createVideoFeed(self):
+        # add buttons layout to the general layout
+        self.general_layout.addLayout(buttons_layout)
+
+    def _create_video_feed(self):
         self.vid = QLabel(self)
-        self.vid.resize(100, 100)
-        self.vid.move(0, 0)
-
-        self.generalLayout.addWidget(self.vid)
-
+        self.general_layout.addWidget(self.vid)
 
     def _camera_color_callback(self, data):
-        np_frame = np.fromstring(data.data, np.uint8)
-        frame = cv2.imdecode(np_frame, cv2.IMREAD_COLOR)
-        rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        # convert image: compressed string --> np --> cv2 --> pyqt
+        np_img = np.fromstring(data.data, np.uint8)
+        bgr_img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
+        rgb_image = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
+
         h, w, ch = rgb_image.shape
         bytes_per_line = ch * w
-        convert_to_Qt_format = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        p = convert_to_Qt_format.scaled(400, 400, Qt.KeepAspectRatio)
+        qt_img = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        qt_img = qt_img.scaledToWidth(self.window_w//2)
 
-        pixmap = QPixmap(QPixmap.fromImage(p))
+        # place image on gui
+        pixmap = QPixmap(QPixmap.fromImage(qt_img))
         self.vid.setPixmap(pixmap)
 
-    def sendAuto(self):
-        msg="AUTO"
+    def send_auto(self):
+        msg = "AUTO"
         if not rospy.is_shutdown():
             self.pub_mode.publish(msg)
 
-    def sendTeleop(self):
-        msg="TELEOP"
+    def send_teleop(self):
+        msg = "TELEOP"
         if not rospy.is_shutdown():
             self.pub_mode.publish(msg)
 
 class Ctrl:
-    """Controller class."""
     def __init__(self, win):
-        """Controller initializer."""
         self._win = win
-        self._connectSignals()
+        self._connect_signals()
 
-    def _connectSignals(self):
-        """Connect signals and slots."""
-        self._win.buttons['AUTO'].clicked.connect(self._win.sendAuto)
-        self._win.buttons['TELEOP'].clicked.connect(self._win.sendTeleop)
+    def _connect_signals(self):
+        self._win.buttons['AUTO'].clicked.connect(self._win.send_auto)
+        self._win.buttons['TELEOP'].clicked.connect(self._win.send_teleop)
 
 
 if __name__ == '__main__':
     try:
-        # pub_mode=rospy.Publisher('mode', String, queue_size=10)
+        # initialize ros node
         rospy.init_node('gui')
-        # rate = rospy.Rate(10) # currently not used
+        # rate = rospy.Rate(10)
 
+        # create gui
         app = QApplication(sys.argv)
         win = Window()
         win.show()
-        Ctrl(win=win)
+        Ctrl(win)
         sys.exit(app.exec_())
     except rospy.ROSInterruptException:
         pass
