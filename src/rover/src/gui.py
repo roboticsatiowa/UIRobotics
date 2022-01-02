@@ -1,19 +1,13 @@
 #!/usr/bin/env python3
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QStatusBar, QToolBar
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QLineEdit
-from PyQt5.QtWidgets import QPushButton
-from PyQt5.QtWidgets import QVBoxLayout
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import pyqtSlot, Qt
-from PyQt5.QtGui import QIcon, QPixmap, QImage
-
 from functools import partial
 import cv2
 import numpy as np
 
-import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QGridLayout, QVBoxLayout
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap, QImage
+
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import CompressedImage
@@ -21,7 +15,7 @@ from sensor_msgs.msg import CompressedImage
 
 class Window(QMainWindow):
     def __init__(self):
-        super().__init__()
+        super(Window, self).__init__()
 
         # initialize
         self.window_w = 1000
@@ -36,11 +30,11 @@ class Window(QMainWindow):
         self.setFixedSize(self.window_w, self.window_h)
 
         # create general layout
-        # TODO: make cleaner
+        # TODO: why is central widget necessary?
         self.general_layout = QVBoxLayout()
-        self.central_widget = QWidget(self)
-        self.setCentralWidget(self.central_widget)
+        self.central_widget = QWidget()
         self.central_widget.setLayout(self.general_layout)
+        self.setCentralWidget(self.central_widget)
 
         # create gui within layout
         self._create_video_feed()
@@ -63,6 +57,7 @@ class Window(QMainWindow):
 
     def _create_video_feed(self):
         self.vid = QLabel(self)
+        self.vid.setAlignment(Qt.AlignCenter)
         self.general_layout.addWidget(self.vid)
 
     def _camera_color_callback(self, data):
@@ -104,13 +99,15 @@ if __name__ == '__main__':
     try:
         # initialize ros node
         rospy.init_node('gui')
-        # rate = rospy.Rate(10)
 
         # create gui
         app = QApplication(sys.argv)
         win = Window()
         win.show()
+
+        # controller
         Ctrl(win)
+
         sys.exit(app.exec_())
     except rospy.ROSInterruptException:
         pass
