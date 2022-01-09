@@ -4,7 +4,7 @@ from functools import partial
 import cv2
 import numpy as np
 
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QGridLayout, QVBoxLayout
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QGridLayout, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QImage
 
@@ -56,9 +56,14 @@ class Window(QMainWindow):
         self.general_layout.addLayout(buttons_layout)
 
     def _create_video_feed(self):
-        self.vid = QLabel(self)
-        self.vid.setAlignment(Qt.AlignCenter)
-        self.general_layout.addWidget(self.vid)
+        self.vid1 = QLabel(self)
+        self.vid2 = QLabel(self)
+
+        vid_layout = QHBoxLayout()
+        vid_layout.addWidget(self.vid1)
+        vid_layout.addWidget(self.vid2)
+        
+        self.general_layout.addLayout(vid_layout)
 
     def _camera_color_callback(self, data):
         # convert image: compressed string --> np --> cv2 --> pyqt
@@ -73,7 +78,8 @@ class Window(QMainWindow):
 
         # place image on gui
         pixmap = QPixmap(QPixmap.fromImage(qt_img))
-        self.vid.setPixmap(pixmap)
+        self.vid1.setPixmap(pixmap)
+        self.vid2.setPixmap(pixmap)
 
     def send_auto(self):
         msg = "AUTO"
