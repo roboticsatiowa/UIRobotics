@@ -162,6 +162,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   src/gui.py
   src/dummy_control.py
+  src/usb_camera.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

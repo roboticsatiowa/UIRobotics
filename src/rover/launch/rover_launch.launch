@@ -1,4 +1,5 @@
 <launch>
   <node name="gui" pkg="rover" type="gui.py" output="screen"/>
   <node name="dummy_control" pkg="rover" type="dummy_control.py" output="screen"/>
+  <node name="usb_camera" pkg="rover" type="usb_camera.py" output="screen"/>
 </launch>
