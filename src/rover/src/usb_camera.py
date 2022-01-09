@@ -8,7 +8,7 @@ import cv2
 def publish_message():
     pub_video = rospy.Publisher('usb_video_frame', Image, queue_size=10)
     rospy.init_node('usb_camera', anonymous=True)
-    rate = rospy.Rate(10) # 10 FPS
+    rate = rospy.Rate(30) # 10 FPS
 
     cap = cv2.VideoCapture(0) # 0 -> webcam number
     br = CvBridge()

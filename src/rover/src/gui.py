@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import sys
 from functools import partial
 import cv2
@@ -10,7 +11,7 @@ from PyQt5.QtGui import QPixmap, QImage
 
 import rospy
 from std_msgs.msg import String
-from sensor_msgs.msg import CompressedImage
+from sensor_msgs.msg import CompressedImage, Image
 
 
 class Window(QMainWindow):
@@ -24,6 +25,7 @@ class Window(QMainWindow):
         # ros pub and subs
         self.pub_mode = rospy.Publisher('mode', String, queue_size=10)
         rospy.Subscriber('/camera/color/image_raw/compressed', CompressedImage, self._camera_color_callback)
+        rospy.Subscriber('usb_video_frame', Image, self._usb_camera_callback)
 
         # create window
         self.setWindowTitle('Robotics at Iowa GUI')
@@ -37,7 +39,7 @@ class Window(QMainWindow):
         self.setCentralWidget(self.central_widget)
 
         # create gui within layout
-        self._create_video_feed()
+        self._create_video_feeds()
         self._create_buttons()
 
     def _create_buttons(self):
@@ -55,7 +57,7 @@ class Window(QMainWindow):
         # add buttons layout to the general layout
         self.general_layout.addLayout(buttons_layout)
 
-    def _create_video_feed(self):
+    def _create_video_feeds(self):
         self.vid1 = QLabel(self)
         self.vid2 = QLabel(self)
 
@@ -69,17 +71,31 @@ class Window(QMainWindow):
         # convert image: compressed string --> np --> cv2 --> pyqt
         np_img = np.fromstring(data.data, np.uint8)
         bgr_img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
-        rgb_image = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
+        rgb_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
 
-        h, w, ch = rgb_image.shape
+        h, w, ch = rgb_img.shape
         bytes_per_line = ch * w
-        qt_img = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        qt_img = QImage(rgb_img.data, w, h, bytes_per_line, QImage.Format_RGB888)
         qt_img = qt_img.scaledToWidth(self.window_w//2)
 
         # place image on gui
-        pixmap = QPixmap(QPixmap.fromImage(qt_img))
+        pixmap = QPixmap.fromImage(qt_img)
         self.vid1.setPixmap(pixmap)
+
+    def _usb_camera_callback(self, data):
+        bgr_img = np.frombuffer(data.data, dtype=np.uint8).reshape(data.height, data.width, -1)
+        rgb_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
+        # rgb_img = br.imgmsg_to_cv2(data)
+
+        h, w, ch = rgb_img.shape
+        bytes_per_line = ch * w
+        qt_img = QImage(rgb_img.data, w, h, bytes_per_line, QImage.Format_RGB888)
+        qt_img = qt_img.scaledToWidth(self.window_w//2)
+
+        # place image on gui
+        pixmap = QPixmap.fromImage(qt_img)
         self.vid2.setPixmap(pixmap)
+
 
     def send_auto(self):
         msg = "AUTO"
