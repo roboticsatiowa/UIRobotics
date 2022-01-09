@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 
 import rospy
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 from cv_bridge import CvBridge
 import cv2
 
 def publish_message():
-    pub_video = rospy.Publisher('usb_video_frame', Image, queue_size=10)
+    pub_video = rospy.Publisher('usb_video_frame', CompressedImage, queue_size=10)
     rospy.init_node('usb_camera', anonymous=True)
-    rate = rospy.Rate(30) # 10 FPS
+    rate = rospy.Rate(30) # 30 FPS
 
     cap = cv2.VideoCapture(0) # 0 -> webcam number
     br = CvBridge()
@@ -17,7 +17,7 @@ def publish_message():
         ret, frame = cap.read()
         
         if ret == True:
-            pub_video.publish(br.cv2_to_imgmsg(frame))
+            pub_video.publish(br.cv2_to_compressed_imgmsg(frame))
         
         rate.sleep()
 

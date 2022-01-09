@@ -24,8 +24,8 @@ class Window(QMainWindow):
 
         # ros pub and subs
         self.pub_mode = rospy.Publisher('mode', String, queue_size=10)
-        rospy.Subscriber('/camera/color/image_raw/compressed', CompressedImage, self._camera_color_callback)
-        rospy.Subscriber('usb_video_frame', Image, self._usb_camera_callback)
+        rospy.Subscriber('/camera/color/image_raw/compressed', CompressedImage, self._realsense_camera_callback)
+        rospy.Subscriber('usb_video_frame', CompressedImage, self._usb_camera_callback)
 
         # create window
         self.setWindowTitle('Robotics at Iowa GUI')
@@ -67,35 +67,28 @@ class Window(QMainWindow):
         
         self.general_layout.addLayout(vid_layout)
 
-    def _camera_color_callback(self, data):
+    def _realsense_camera_callback(self, data):
+        pixmap = self._compressed_image_to_pixmap(data.data, width_scale=self.window_w//2)
+        self.vid1.setPixmap(pixmap)
+
+    def _usb_camera_callback(self, data):
+        pixmap = self._compressed_image_to_pixmap(data.data, width_scale=self.window_w//2)
+        self.vid2.setPixmap(pixmap)
+
+    def _compressed_image_to_pixmap(self, compressed_img, width_scale):
         # convert image: compressed string --> np --> cv2 --> pyqt
-        np_img = np.fromstring(data.data, np.uint8)
+        np_img = np.fromstring(compressed_img, np.uint8)
         bgr_img = cv2.imdecode(np_img, cv2.IMREAD_COLOR)
         rgb_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
 
         h, w, ch = rgb_img.shape
         bytes_per_line = ch * w
         qt_img = QImage(rgb_img.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        qt_img = qt_img.scaledToWidth(self.window_w//2)
+        qt_img = qt_img.scaledToWidth(width_scale)
 
-        # place image on gui
         pixmap = QPixmap.fromImage(qt_img)
-        self.vid1.setPixmap(pixmap)
 
-    def _usb_camera_callback(self, data):
-        bgr_img = np.frombuffer(data.data, dtype=np.uint8).reshape(data.height, data.width, -1)
-        rgb_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
-        # rgb_img = br.imgmsg_to_cv2(data)
-
-        h, w, ch = rgb_img.shape
-        bytes_per_line = ch * w
-        qt_img = QImage(rgb_img.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        qt_img = qt_img.scaledToWidth(self.window_w//2)
-
-        # place image on gui
-        pixmap = QPixmap.fromImage(qt_img)
-        self.vid2.setPixmap(pixmap)
-
+        return pixmap
 
     def send_auto(self):
         msg = "AUTO"
