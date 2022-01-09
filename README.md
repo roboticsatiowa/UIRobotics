@@ -23,3 +23,4 @@ $ bash ./launch_rover.sh
 - Simplify PyQt structure (too many layouts and widgets?)
 - Make a `requirements.txt`
 - Write better instructions
+- Check if cameras are connected
