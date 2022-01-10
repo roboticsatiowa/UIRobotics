@@ -25,7 +25,7 @@ class Window(QMainWindow):
         # ros pub and subs
         self.pub_mode = rospy.Publisher('mode', String, queue_size=10)
         rospy.Subscriber('/camera/color/image_raw/compressed', CompressedImage, self._realsense_camera_callback)
-        rospy.Subscriber('usb_video_frame', CompressedImage, self._usb_camera_callback)
+        rospy.Subscriber('/usbcam0/image_raw/compressed', CompressedImage, self._usb_camera_callback)
 
         # create window
         self.setWindowTitle('Robotics at Iowa GUI')

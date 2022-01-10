@@ -1,5 +1,34 @@
 <launch>
+  <!-- launch nodes  -->
   <node name="gui" pkg="rover" type="gui.py" output="screen"/>
   <node name="dummy_control" pkg="rover" type="dummy_control.py" output="screen"/>
-  <node name="usb_camera" pkg="rover" type="usb_camera.py" output="screen"/>
+
+  <!-- launch usb camera using video_stream_opencv package: https://github.com/ros-drivers/video_stream_opencv -->
+  <include file="$(find video_stream_opencv)/launch/camera.launch" >
+    <!-- node name and ros graph name -->
+    <arg name="camera_name" value="usbcam0" />
+    <!-- means video device 0, /dev/video0 -->
+    <arg name="video_stream_provider" value="2" />
+    <!-- set camera fps to (if the device allows) -->
+    <arg name="set_camera_fps" value="30"/>
+    <!-- set buffer queue size of frame capturing to -->
+    <arg name="buffer_queue_size" value="1" />
+    <!-- throttling the publishing of frames to -->
+    <arg name="fps" value="30" />
+    <!-- setting frame_id -->
+    <arg name="frame_id" value="usbcam0" />
+    <!-- camera info loading, take care as it needs the "file:///" at the start , e.g.:
+    "file:///$(find your_camera_package)/config/your_camera.yaml" -->
+    <arg name="camera_info_url" value="" />
+    <!-- flip the image horizontally (mirror it) -->
+    <arg name="flip_horizontal" value="false" />
+    <!-- flip the image vertically -->
+    <arg name="flip_vertical" value="false" />
+    <!-- force a width and height, 0 means no forcing -->
+    <arg name="width" value="640"/>
+    <arg name="height" value="480"/>
+    <!-- visualize on an image_view window the stream generated -->
+    <arg name="visualize" value="false" />
+  </include>
+
 </launch>
