@@ -50,14 +50,21 @@ class Window(QMainWindow):
         # create the buttons and add them to the grid layout
         buttons_layout = QGridLayout()
         for btnText, pos in buttons.items():
+            # create button
             self.buttons[btnText] = QPushButton(btnText)
             self.buttons[btnText].setFixedSize(150, 40)
+
+            # connect button to publisher (currenly just publishes button text)
+            self.buttons[btnText].clicked.connect(lambda state, msg=btnText: self._send_mode(msg))
+
+            # add button to button layout
             buttons_layout.addWidget(self.buttons[btnText], pos[0], pos[1])
 
         # add buttons layout to the general layout
         self.general_layout.addLayout(buttons_layout)
 
     def _create_video_feeds(self):
+        # create two video feeds
         self.vid1 = QLabel(self)
         self.vid2 = QLabel(self)
 
@@ -90,24 +97,10 @@ class Window(QMainWindow):
 
         return pixmap
 
-    def send_auto(self):
-        msg = "AUTO"
+    def _send_mode(self, msg):
+        # publish mode from button
         if not rospy.is_shutdown():
             self.pub_mode.publish(msg)
-
-    def send_teleop(self):
-        msg = "TELEOP"
-        if not rospy.is_shutdown():
-            self.pub_mode.publish(msg)
-
-class Ctrl:
-    def __init__(self, win):
-        self._win = win
-        self._connect_signals()
-
-    def _connect_signals(self):
-        self._win.buttons['AUTO'].clicked.connect(self._win.send_auto)
-        self._win.buttons['TELEOP'].clicked.connect(self._win.send_teleop)
 
 
 if __name__ == '__main__':
@@ -120,9 +113,7 @@ if __name__ == '__main__':
         win = Window()
         win.show()
 
-        # controller
-        Ctrl(win)
-
         sys.exit(app.exec_())
     except rospy.ROSInterruptException:
         pass
+
