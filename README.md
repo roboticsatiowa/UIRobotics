@@ -14,7 +14,7 @@ $ bash ./launch_rover.sh
 
 ### Prerequisites:
 - Install [realsense-ros wrapper](https://github.com/IntelRealSense/realsense-ros)
-- In a separate terminal window run `roslaunch realsense2_camera rs_camera.launch`
+- Install [video-stream-opencv package](https://github.com/ros-drivers/video_stream_opencv)
 
 ### TODO:
 - Incorporate realsense ROS package into main package
