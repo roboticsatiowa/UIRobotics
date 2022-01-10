@@ -166,6 +166,7 @@ catkin_install_python(PROGRAMS
     src/arm_shoulder.py
     src/base_encoder.py
     src/controller_driver.py
+    src/dummy_control.py
     src/elbow_encoder.py
     src/gps.py
     src/gripper_encoder.py

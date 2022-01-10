@@ -6,3 +6,6 @@
 */include
 .catkin_workspace
 src/CMakeLists.txt
+**.jpg
+**.swp
+**.swo
