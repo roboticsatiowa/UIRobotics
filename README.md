@@ -6,7 +6,7 @@
 # create dir and clone repo
 $ mkdir robotics_ws
 $ cd robotics_ws
-$ git clone -b main-ros https://github.com/roboticsatiowa/UIRobotics.git .
+$ git clone https://github.com/roboticsatiowa/UIRobotics.git .
 
 # build
 $ catkin_make
