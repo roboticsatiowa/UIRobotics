@@ -42,6 +42,87 @@ class Window(QMainWindow):
         self._create_video_feeds()
         self._create_buttons()
 
+        # calling method
+        self.UiComponents()
+
+        # showing all the widgets
+        self.show()
+
+    # map zoom/slider
+    def valuechange(slider, self):
+        sliderLabel = QLabel()
+        sliderLabel.setGeometry(700, 650, 10, 10)
+        sliderLabel.setStyleSheet("border: 3px solid orange")
+        sliderLabel.setFont(QFont('Times', 15))
+        sliderLabel.setAlignment(Qt.AlignCenter)
+
+    # TODO: finish getMapImage
+    # def getMapImage(self, lat, lng, zoom):
+    #    urlbase = "http://maps.google.com/maps/api/staticmap?"
+    #    GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
+
+    def UiComponents(self):
+
+        # variables
+        # count variables
+        self.count = 0
+
+        # start flag
+        self.start = False
+
+        # GPS container
+        label1 = QLabel("GPS", self)
+        label1.setGeometry(700, 400, 200, 200)
+        label1.setStyleSheet("border: 3px solid orange")
+        label1.setFont(QFont('Times', 15))
+        label1.setAlignment(Qt.AlignCenter)
+
+        # push button for time in seconds
+        button = QPushButton("Set Time", self)
+        button.setGeometry(325, 530, 150, 50)
+        button.clicked.connect(self.get_seconds)
+
+        # label showing time elapsed
+        self.label = QLabel("//TIMER//", self)
+        self.label.setGeometry(340, 470, 300, 50)
+        self.label.setStyleSheet("border: 3px solid black")
+        self.label.setFont(QFont('Times', 15))
+        self.label.setAlignment(Qt.AlignCenter)
+
+        # timer start button
+        start_button = QPushButton("Start", self)
+        start_button.setGeometry(500, 530, 150, 50)
+        start_button.clicked.connect(self.start_action)
+
+        # timer pause button
+        pause_button = QPushButton("Pause", self)
+        pause_button.setGeometry(325, 600, 150, 50)
+        pause_button.clicked.connect(self.pause_action)
+
+        # timer reset button
+        reset_button = QPushButton("Reset", self)
+        reset_button.setGeometry(500, 600, 150, 30)
+        reset_button.clicked.connect(self.reset_action)
+
+        # timer object
+        timer = QTimer(self)
+        # adding action to timer
+        timer.timeout.connect(self.showTime)
+        # update timer every tenth of a second
+        timer.start(100)
+
+        # slider for map
+        slider = QSlider(Qt.Horizontal, self)
+        slider.setMinimum(1)
+        slider.setMaximum(24)
+        slider.setValue(12)
+        slider.setTickPosition(QSlider.TicksBelow)
+        slider.setTickInterval(1)
+        slider.setGeometry(700,600,300,50)
+        slider.valueChanged.connect(self.valuechange)
+
+# do not touch code below!
+# beginning of already-existing gui code
     def _create_buttons(self):
         # buttons dict
         self.buttons = {}
@@ -71,7 +152,7 @@ class Window(QMainWindow):
         vid_layout = QHBoxLayout()
         vid_layout.addWidget(self.vid1)
         vid_layout.addWidget(self.vid2)
-        
+
         self.general_layout.addLayout(vid_layout)
 
     def _realsense_camera_callback(self, data):
@@ -116,4 +197,3 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
     except rospy.ROSInterruptException:
         pass
-
