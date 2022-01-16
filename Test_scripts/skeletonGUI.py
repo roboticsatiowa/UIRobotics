@@ -54,21 +54,21 @@ class Window(QMainWindow):
         self.start = False
 
         #creating label as camera feed placeholder
-        pic = QLabel(self)
-        pixmap = QPixmap("rover1.png")
-        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
-        pic.setPixmap(smaller_pixmap)
-        pic.resize(400,300)
-        pic.move(50,50)
-        pic.show()
+#        pic = QLabel(self)
+#        pixmap = QPixmap("rover1.png")
+#        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic.setPixmap(smaller_pixmap)
+#        pic.resize(400,300)
+#        pic.move(50,50)
+#        pic.show()
 
-        pic1 = QLabel(self)
-        pixmap2 = QPixmap("astronaut.png")
-        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
-        pic1.setPixmap(smaller_pixmap2)
-        pic1.resize(400,300)
-        pic1.move(550,50)
-        pic1.show()
+#        pic1 = QLabel(self)
+#        pixmap2 = QPixmap("astronaut.png")
+#        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic1.setPixmap(smaller_pixmap2)
+#        pic1.resize(400,300)
+#        pic1.move(550,50)
+#        pic1.show()
 
         label1 = QLabel("Camera Feed 1", self)
         label1.setGeometry(50, 50,400,300)
@@ -84,7 +84,7 @@ class Window(QMainWindow):
 
 
         # GPS Container
-        label3 = ("GPS", self)
+        label3 = QLabel("GPS", self)
         label3.setGeometry(700, 400, 200,200)
         label3.setStyleSheet("border: 3px solid orange")
         label3.setFont(QFont('Times', 15))
@@ -198,9 +198,6 @@ class Window(QMainWindow):
 
 		# getting seconds and flag
         second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
-        mins = second/60
-        hrs = mins/60
-        second = second%3600
 
 		# if flag is true
         if done:
@@ -208,8 +205,7 @@ class Window(QMainWindow):
             self.count = second * 10
 
 			# setting text to the label
-            self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
-            #self.label.setText(str(second))
+            self.label.setText(str(second))
 
     def start_action(self):
 		# making flag true
