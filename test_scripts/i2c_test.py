@@ -15,4 +15,4 @@ led_channel_2 = pca.channels[0]
 #time.sleep(2)
 
 led_channel.duty_cycle = 32765
-led_channel_2.duty_cycle = 32765
+led_channel_2.duty_cycle = 50000

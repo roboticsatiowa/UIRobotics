@@ -17,6 +17,7 @@ mostRecentRightData = -1
 mostRecentLeftData = -1
 
 def callback(data):
+    global turning
     rospy.loginfo(data.data)
     mostRecentRightData = data.data
     
@@ -32,6 +33,7 @@ def callback(data):
         right_inner.duty_cycle = data.data
         
 def leftCallback(leftData):
+    global turning
     rospy.loginfo(leftData.data)
     mostRecentLeftData = leftData.data
     

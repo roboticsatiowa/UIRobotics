@@ -36,8 +36,8 @@ def talker():
     rospy.init_node('controller_driver')
 
     
-    while(pub_xPos.get_num_connections() == 0 or pub_yPos.get_num_connections() == 0 or pub_zPos.get_num_connections() == 0 or pub_tilt.get_num_connections() == 0 or pub_rotate.get_num_connections() == 0 or pub_open.get_num_connections() == 0 or pub_right.get_num_connections() == 0 or pub_left.get_num_connections() == 0):
-        print("No connection!")
+    #while(pub_xPos.get_num_connections() == 0 or pub_yPos.get_num_connections() == 0 or pub_zPos.get_num_connections() == 0 or pub_tilt.get_num_connections() == 0 or pub_rotate.get_num_connections() == 0 or pub_open.get_num_connections() == 0 or pub_right.get_num_connections() == 0 or pub_left.get_num_connections() == 0):
+        #print("No connection!")
     
 
     rate = rospy.Rate(10)
