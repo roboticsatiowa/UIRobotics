@@ -13,47 +13,47 @@ from functools import partial
 import sys
 
 
-# def window():
+#def window():
 #     app = QApplication(sys.argv)
 #     widget = QWidget()
-#
+
 #     widget.setGeometry(0,0,1200,800)
 #     widget.setWindowTitle("Runtime GUI")
-#
+
 #     textLabel = QLabel(widget)
 #     textLabel.setText("Hello World!")
 #     textLabel.move(110,85)
-#
+
 #     button1 = QPushButton(widget)
 #     button1.setText("Button1")
 #     button1.move(64,32)
-#
-#
+
+
 #     widget.show()
 #     sys.exit(app.exec_())
-#
-# if __name__ == '__main__':
+
+#if __name__ == '__main__':
 #    window()
 
 
 
-        # self._createMenu()
-        # self._createToolBar()
-        # self._createStatusBar()
-    #
-    # def _createMenu(self):
-    #     self.menu = self.menuBar().addMenu("&Menu")
-    #     self.menu.addAction('&Exit', self.close)
-    #
-    # def _createToolBar(self):
-    #     tools = QToolBar()
-    #     self.addToolBar(tools)
-    #     tools.addAction('Exit', self.close)
-    #
-    # def _createStatusBar(self):
-    #     status = QStatusBar()
-    #     status.showMessage("I'm the Status Bar")
-    #     self.setStatusBar(status)
+#    self._createMenu()
+#    self._createToolBar()
+#    self._createStatusBar()
+
+#     def _createMenu(self):
+#         self.menu = self.menuBar().addMenu("&Menu")
+#         self.menu.addAction('&Exit', self.close)
+
+#     def _createToolBar(self):
+#         tools = QToolBar()
+#         self.addToolBar(tools)
+#         tools.addAction('Exit', self.close)
+
+#     def _createStatusBar(self):
+#         status = QStatusBar()
+#         status.showMessage("I'm the Status Bar")
+#         self.setStatusBar(status)
 
 
 class Window(QMainWindow):
