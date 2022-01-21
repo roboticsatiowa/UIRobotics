@@ -25,14 +25,14 @@ class Window(QMainWindow):
 
     	# showing all the widgets
     	self.show()
-        
+
     #def valuechange(slider, self):
      #   sliderLabel = QLabel()
       #  sliderLabel.setGeometry(700, 650, 10, 10)
        # sliderLabel.setStyleSheet("border: 3px solid orange")
         #sliderLabel.setFont(QFont('Times', 15))
         #sliderLabel.setAlignment(Qt.AlignCenter)
-        
+
     def getMapImage(self, lat, lng, zoom):
         urlbase = "http://maps.google.com/maps/api/staticmap?"
         GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
@@ -145,16 +145,18 @@ class Window(QMainWindow):
         manualButton = QPushButton("MANUAL MODE", self)
         manualButton.setGeometry(50, 650, 200, 100)
         manualButton.clicked.connect(self.manual_action)
-        
+
         #creating latitude input text box
         latitudeButton = QPushButton("Set Latitude", self)
         latitudeButton.setGeometry(700, 650, 100, 50)
         latitudeButton.clicked.connect(self.getLatitude)
-        
+        latitudeButton.setFont(QFont('Times', 11))
+
         #creating longitude input text box
-        longitudeButton = QPushButton("Set Latitude", self)
+        longitudeButton = QPushButton("Set Longitude", self)
         longitudeButton.setGeometry(800, 650, 100, 50)
         longitudeButton.clicked.connect(self.getLongitude)
+        longitudeButton.setFont(QFont('Times', 11))
 
         # Creating slider
         self.slider = QSlider(Qt.Horizontal, self)
@@ -231,7 +233,7 @@ class Window(QMainWindow):
     #method to get longitude
     def getLongitude(self):
         self.longitude, ok = QInputDialog.getDouble(self, "Longitude", "Enter Longitude", 0, -180, 180)
-    
+
     #slider value change method
     def sliderValueChanged(self):
         self.getMapImage(self.latitude, self.longitude, self.slider.value())
