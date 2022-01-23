@@ -25,14 +25,14 @@ class Window(QMainWindow):
 
     	# showing all the widgets
     	self.show()
-        
+
     #def valuechange(slider, self):
      #   sliderLabel = QLabel()
       #  sliderLabel.setGeometry(700, 650, 10, 10)
        # sliderLabel.setStyleSheet("border: 3px solid orange")
         #sliderLabel.setFont(QFont('Times', 15))
         #sliderLabel.setAlignment(Qt.AlignCenter)
-        
+
     def getMapImage(self, lat, lng, zoom):
         urlbase = "http://maps.google.com/maps/api/staticmap?"
         GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
@@ -57,21 +57,21 @@ class Window(QMainWindow):
         self.start = False
 
         #creating label as camera feed placeholder
-        pic = QLabel(self)
-        pixmap = QPixmap("rover1.png")
-        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
-        pic.setPixmap(smaller_pixmap)
-        pic.resize(400,300)
-        pic.move(50,50)
-        pic.show()
+#        pic = QLabel(self)
+#        pixmap = QPixmap("rover1.png")
+#        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic.setPixmap(smaller_pixmap)
+#        pic.resize(400,300)
+#        pic.move(50,50)
+#        pic.show()
 
-        pic1 = QLabel(self)
-        pixmap2 = QPixmap("astronaut.png")
-        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
-        pic1.setPixmap(smaller_pixmap2)
-        pic1.resize(400,300)
-        pic1.move(550,50)
-        pic1.show()
+#        pic1 = QLabel(self)
+#        pixmap2 = QPixmap("astronaut.png")
+#        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic1.setPixmap(smaller_pixmap2)
+#        pic1.resize(400,300)
+#        pic1.move(550,50)
+#        pic1.show()
 
         label1 = QLabel("Camera Feed 1", self)
         label1.setGeometry(50, 50,400,300)
@@ -87,6 +87,13 @@ class Window(QMainWindow):
 
 
         # GPS Container
+<<<<<<< HEAD
+        label3 = QLabel("GPS", self)
+        label3.setGeometry(700, 400, 200,200)
+        label3.setStyleSheet("border: 3px solid orange")
+        label3.setFont(QFont('Times', 15))
+        label3.setAlignment(Qt.AlignCenter)
+=======
         self.label3 = QLabel("GPS", self)
         self.label3.setGeometry(700, 400, 200,200)
         #GPSpixmap = QPixmap('googlemap.png')
@@ -94,6 +101,7 @@ class Window(QMainWindow):
         self.label3.setStyleSheet("border: 3px solid orange")
         self.label3.setFont(QFont('Times', 15))
         self.label3.setAlignment(Qt.AlignCenter)
+>>>>>>> 1fdcf369e61f8496e34b00f100827826f1334cbf
         # gpsGeomoetry = self.geometry().bottomRight() - label3.geometry().bottomRight() - QPoint(100, 100)
         # label3.move(gpsGeomoetry)
 
@@ -145,16 +153,18 @@ class Window(QMainWindow):
         manualButton = QPushButton("MANUAL MODE", self)
         manualButton.setGeometry(50, 650, 200, 100)
         manualButton.clicked.connect(self.manual_action)
-        
+
         #creating latitude input text box
         latitudeButton = QPushButton("Set Latitude", self)
         latitudeButton.setGeometry(700, 650, 100, 50)
         latitudeButton.clicked.connect(self.getLatitude)
-        
+        latitudeButton.setFont(QFont('Times', 11))
+
         #creating longitude input text box
-        longitudeButton = QPushButton("Set Latitude", self)
+        longitudeButton = QPushButton("Set Longitude", self)
         longitudeButton.setGeometry(800, 650, 100, 50)
         longitudeButton.clicked.connect(self.getLongitude)
+        longitudeButton.setFont(QFont('Times', 11))
 
         # Creating slider
         self.slider = QSlider(Qt.Horizontal, self)
@@ -213,9 +223,6 @@ class Window(QMainWindow):
 
 		# getting seconds and flag
         second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
-        mins = second/60
-        hrs = mins/60
-        second = second%3600
 
 		# if flag is true
         if done:
@@ -223,6 +230,9 @@ class Window(QMainWindow):
             self.count = second * 10
 
 			# setting text to the label
+<<<<<<< HEAD
+            self.label.setText(str(second))
+=======
             self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
             #self.label.setText(str(second))
      #method to get latitude
@@ -231,13 +241,14 @@ class Window(QMainWindow):
     #method to get longitude
     def getLongitude(self):
         self.longitude, ok = QInputDialog.getDouble(self, "Longitude", "Enter Longitude", 0, -180, 180)
-    
+
     #slider value change method
     def sliderValueChanged(self):
         self.getMapImage(self.latitude, self.longitude, self.slider.value())
         self.label3.clear()
         GPSpixmap = QPixmap('googlemap.png')
         self.label3.setPixmap(GPSpixmap)
+>>>>>>> 1fdcf369e61f8496e34b00f100827826f1334cbf
 
     def start_action(self):
 		# making flag true
