@@ -22,16 +22,16 @@ def talker():
     leftTrig = 0
 
     #create publishers
-    pub_xPos = rospy.Publisher('xPos',Int32,queue_size=10)
-    pub_yPos = rospy.Publisher('yPos',Int32,queue_size=10)
-    pub_zPos = rospy.Publisher('zPos',Int32,queue_size=10)
+    pub_xPos = rospy.Publisher('xPos',Int32,queue_size=None)
+    pub_yPos = rospy.Publisher('yPos',Int32,queue_size=None)
+    pub_zPos = rospy.Publisher('zPos',Int32,queue_size=None)
 
-    pub_tilt = rospy.Publisher('tilt',Int32,queue_size=10)
-    pub_rotate = rospy.Publisher('rotate',Int32,queue_size=10)
-    pub_open = rospy.Publisher('open',Int32,queue_size=10)
+    pub_tilt = rospy.Publisher('tilt',Int32,queue_size=None)
+    pub_rotate = rospy.Publisher('rotate',Int32,queue_size=None)
+    pub_open = rospy.Publisher('open',Int32,queue_size=None)
 
-    pub_right = rospy.Publisher('right_wheels',Int32,queue_size=10)
-    pub_left = rospy.Publisher('left_wheels',Int32,queue_size=10)
+    pub_right = rospy.Publisher('right_wheels',Int32,queue_size=None)
+    pub_left = rospy.Publisher('left_wheels',Int32,queue_size=None)
 
     rospy.init_node('controller_driver')
 
@@ -40,7 +40,7 @@ def talker():
         #print("No connection!")
     
 
-    rate = rospy.Rate(10)
+    rate = rospy.Rate(50)
 
     print("Talker initialized!")
 
