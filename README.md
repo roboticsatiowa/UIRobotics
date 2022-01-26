@@ -11,11 +11,14 @@ $ git clone https://github.com/roboticsatiowa/UIRobotics.git .
 # build
 $ catkin_make
 
-# run
+# run drive wheels
 $ bash ./launch_rover.sh
+
+# run gui
+$ bash ./launch_gui.sh
 ```
 
-_Note_ : Currently `launch_rover.sh` only launches (1) the sample GUI with realsense camera and usb camera feeds and (2) a dummy controller for testing. All other nodes can be manually launched.
+_Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsense camera and usb camera feeds and (2) a dummy controller for testing. All other nodes can be manually launched.
 
 ### Prerequisites:
 - Install [realsense2-ros](https://github.com/IntelRealSense/realsense-ros) package: `sudo apt-get install ros-melodic-realsense2-camera`
