@@ -17,6 +17,7 @@ mostRecentLeftData = -1
 mostRecentRightData = -1
 
 def callback(data):
+    global turning
     rospy.loginfo(data.data)
     mostRecentLeftData = data.data
     
@@ -26,18 +27,18 @@ def callback(data):
     
     if turning:
         left_outer.duty_cycle = data.data
-        left_inner.duty_cycle = data.data * .712
+        left_inner.duty_cycle = int((data.data-32768)*.712)+32768
     else:
         left_outer.duty_cycle = data.data
         left_inner.duty_cycle = data.data
     
 def rightCallback(rightData):
-    rospy.loginfo(rightData.data)
+    #rospy.loginfo(rightData.data)
     mostRecentRightData = rightData.data
     
-    if mostRecentLeftData != -1 and mostRecentRightData != -1: # if these have been initialized
+    #if mostRecentLeftData != -1 and mostRecentRightData != -1: # if these have been initialized
         # if either is less than 2^15 while the other is greater than 2^15, turning is True
-        turning = (mostRecentLeftData - 32768 > 0 and mostRecentRightData - 32768 < 0) or (mostRecentLeftData - 32768 < 0 and mostRecentRightData - 32768 > 0)
+        #turning = (mostRecentLeftData - 32768 > 0 and mostRecentRightData - 32768 < 0) or (mostRecentLeftData - 32768 < 0 and mostRecentRightData - 32768 > 0)
 
 def left_wheels():
     rospy.init_node('left_wheels')
