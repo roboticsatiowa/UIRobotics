@@ -47,32 +47,32 @@ class Window(QMainWindow):
         # self._create_silder()
         # self.UiComponents()
 
-    def _create_silder(self):
-        self.slider = QSlider(Qt.Horizontal, self)
-        self.slider.setMinimum(1)
-        self.slider.setMaximum(24)
-        self.slider.setValue(12)
-        self.slider.setTickPosition(QSlider.TicksBelow)
-        self.slider.setTickInterval(1)
-        self.slider.setGeometry(700, 600, 200, 50)
-        self.slider.valueChanged.connect(self.sliderValueChanged)
-
-        slider_layout = QHBoxLayout()
-        slider_layout.addWidget(self.slider)
-
-        self.general_layout.addLayout(slider_layout)
+    # def _create_silder(self):
+    #     self.slider = QSlider(Qt.Horizontal, self)
+    #     self.slider.setMinimum(1)
+    #     self.slider.setMaximum(24)
+    #     self.slider.setValue(12)
+    #     self.slider.setTickPosition(QSlider.TicksBelow)
+    #     self.slider.setTickInterval(1)
+    #     self.slider.setGeometry(700, 600, 200, 50)
+    #     self.slider.valueChanged.connect(self.sliderValueChanged)
+    #
+    #     slider_layout = QHBoxLayout()
+    #     slider_layout.addWidget(self.slider)
+    #
+    #     self.general_layout.addLayout(slider_layout)
 
 # method for widgets
-    def UiComponents(self):
-
-    	# variables
-    	# count variable
-        self.count = 0
-        self.latitude = 41.6
-        self.longitude = -91.5
-
-    	# start flag
-        self.start = False
+    # def UiComponents(self):
+    #
+    # 	# variables
+    # 	# count variable
+    #     self.count = 0
+    #     self.latitude = 41.6
+    #     self.longitude = -91.5
+    #
+    # 	# start flag
+    #     self.start = False
 
        #  creating label as camera feed placeholder
        # pic = QLabel(self)
@@ -162,21 +162,21 @@ class Window(QMainWindow):
 
 
 
-    def sliderValueChanged(self):
-        self.getMapImage(self.latitude, self.longitude, self.slider.value())
-        self.label3.clear()
-        GPSpixmap = QPixmap('googlemap.png')
-        self.label3.setPixmap(GPSpixmap)
-
-    def getMapImage(self, lat, lng, zoom):
-        urlbase = "http://maps.google.com/maps/api/staticmap?"
-        GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
-        args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
-        args = args + "&key=" + GOOGLEAPIKEY
-        mapURL = urlbase+args
-        urlretrieve(mapURL, 'googlemap.png')
-        img = QPixmap('googlemap.png')
-        return img
+    # def sliderValueChanged(self):
+    #     self.getMapImage(self.latitude, self.longitude, self.slider.value())
+    #     self.label3.clear()
+    #     GPSpixmap = QPixmap('googlemap.png')
+    #     self.label3.setPixmap(GPSpixmap)
+    #
+    # def getMapImage(self, lat, lng, zoom):
+    #     urlbase = "http://maps.google.com/maps/api/staticmap?"
+    #     GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
+    #     args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
+    #     args = args + "&key=" + GOOGLEAPIKEY
+    #     mapURL = urlbase+args
+    #     urlretrieve(mapURL, 'googlemap.png')
+    #     img = QPixmap('googlemap.png')
+    #     return img
 
     def _send_mode(self, msg):
         # publish mode from button
