@@ -39,6 +39,15 @@ class Window(QMainWindow):
 
 
         # create slider
+
+
+        # create gui within layout
+        self._create_video_feeds()
+        self._create_buttons()
+        # self._create_silder()
+        # self.UiComponents()
+
+    def _create_silder(self):
         self.slider = QSlider(Qt.Horizontal, self)
         self.slider.setMinimum(1)
         self.slider.setMaximum(24)
@@ -48,10 +57,11 @@ class Window(QMainWindow):
         self.slider.setGeometry(700, 600, 200, 50)
         self.slider.valueChanged.connect(self.sliderValueChanged)
 
-        # create gui within layout
-        self._create_video_feeds()
-        self._create_buttons()
-        self.UiComponents()
+        slider_layout = QHBoxLayout()
+        slider_layout.addWidget(self.slider)
+
+        self.general_layout.addLayout(slider_layout)
+
 # method for widgets
     def UiComponents(self):
 
@@ -64,30 +74,30 @@ class Window(QMainWindow):
     	# start flag
         self.start = False
 
-        #creating label as camera feed placeholder
-#        pic = QLabel(self)
-#        pixmap = QPixmap("rover1.png")
-#        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
-#        pic.setPixmap(smaller_pixmap)
-#        pic.resize(400,300)
-#        pic.move(50,50)
-#        pic.show()
+       #  creating label as camera feed placeholder
+       # pic = QLabel(self)
+       # pixmap = QPixmap("rover1.png")
+       # smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
+       # pic.setPixmap(smaller_pixmap)
+       # pic.resize(400,300)
+       # pic.move(50,50)
+       # pic.show()
+       #
+       # pic1 = QLabel(self)
+       # pixmap2 = QPixmap("astronaut.png")
+       # smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
+       # pic1.setPixmap(smaller_pixmap2)
+       # pic1.resize(400,300)
+       # pic1.move(550,50)
+       # pic1.show()
 
-#        pic1 = QLabel(self)
-#        pixmap2 = QPixmap("astronaut.png")
-#        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
-#        pic1.setPixmap(smaller_pixmap2)
-#        pic1.resize(400,300)
-#        pic1.move(550,50)
-#        pic1.show()
-
-        # label1 = QLabel("Camera Feed 1", self)
+        # label1 = QLabel(self)
         # label1.setGeometry(50, 50,400,300)
         # label1.setStyleSheet("border: 3px solid orange")
         # label1.setFont(QFont('Times', 15))
         # label1.setAlignment(Qt.AlignCenter)
         #
-        # label2 = QLabel("Camera Feed 2", self)
+        # label2 = QLabel(self)
         # label2.setGeometry(550, 50, 400, 300)
         # label2.setStyleSheet("border: 3px solid orange")
         # label2.setFont(QFont('Times', 15))
@@ -116,10 +126,10 @@ class Window(QMainWindow):
 
     def _create_video_feeds(self):
         # create two video feeds
-        self.vid1 = QLabel(self)
+        self.vid1 = QLabel(self) #realsense
         self.vid2 = QLabel(self)
-        self.vid2.setGeometry(50, 50,400,300)
-        self.vid1.setGeometry(550, 50, 400, 300)
+        # self.vid2.setGeometry(50, 50,400,300) #usb camera
+        # self.vid1.setGeometry(50, 50,400,300)
 
         vid_layout = QHBoxLayout()
         vid_layout.addWidget(self.vid1)
@@ -132,7 +142,6 @@ class Window(QMainWindow):
         self.vid1.setPixmap(pixmap)
 
     def _usb_camera_callback(self, data):
-
         pixmap = self._compressed_image_to_pixmap(data.data, width_scale=self.window_w//2)
         self.vid2.setPixmap(pixmap)
 
@@ -154,10 +163,10 @@ class Window(QMainWindow):
 
 
     def sliderValueChanged(self):
-            self.getMapImage(self.latitude, self.longitude, self.slider.value())
-            self.label3.clear()
-            GPSpixmap = QPixmap('googlemap.png')
-            self.label3.setPixmap(GPSpixmap)
+        self.getMapImage(self.latitude, self.longitude, self.slider.value())
+        self.label3.clear()
+        GPSpixmap = QPixmap('googlemap.png')
+        self.label3.setPixmap(GPSpixmap)
 
     def getMapImage(self, lat, lng, zoom):
         urlbase = "http://maps.google.com/maps/api/staticmap?"
