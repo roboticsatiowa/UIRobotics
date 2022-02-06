@@ -118,7 +118,8 @@ class Window(QMainWindow):
         # create two video feeds
         self.vid1 = QLabel(self)
         self.vid2 = QLabel(self)
-        self.vid2.setGeometry(1000, 50,40,30)
+        self.vid2.setGeometry(50, 50,400,300)
+        self.vid1.setGeometry(550, 50, 400, 300)
 
         vid_layout = QHBoxLayout()
         vid_layout.addWidget(self.vid1)
