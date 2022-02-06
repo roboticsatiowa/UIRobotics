@@ -4,11 +4,10 @@ import sys
 from functools import partial
 import cv2
 import numpy as np
-
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QMainWindow, QGridLayout, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QApplication, QSlider, QWidget, QLabel, QPushButton, QMainWindow, QGridLayout, QVBoxLayout, QHBoxLayout
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap, QImage
-
+from PyQt5.QtGui import QPixmap, QImage, QFont
+from urllib.request import urlopen, urlretrieve
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import CompressedImage, Image
@@ -20,7 +19,7 @@ class Window(QMainWindow):
 
         # initialize
         self.window_w = 1000
-        self.window_h = 500
+        self.window_h = 800
 
         # ros pub and subs
         self.pub_mode = rospy.Publisher('mode', String, queue_size=10)
@@ -38,9 +37,61 @@ class Window(QMainWindow):
         self.central_widget.setLayout(self.general_layout)
         self.setCentralWidget(self.central_widget)
 
+
+        # create slider
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setMinimum(1)
+        self.slider.setMaximum(24)
+        self.slider.setValue(12)
+        self.slider.setTickPosition(QSlider.TicksBelow)
+        self.slider.setTickInterval(1)
+        self.slider.setGeometry(700, 600, 200, 50)
+        self.slider.valueChanged.connect(self.sliderValueChanged)
+
         # create gui within layout
         self._create_video_feeds()
         self._create_buttons()
+        self.UiComponents()
+# method for widgets
+    def UiComponents(self):
+
+    	# variables
+    	# count variable
+        self.count = 0
+        self.latitude = 41.6
+        self.longitude = -91.5
+
+    	# start flag
+        self.start = False
+
+        #creating label as camera feed placeholder
+#        pic = QLabel(self)
+#        pixmap = QPixmap("rover1.png")
+#        smaller_pixmap = pixmap.scaled(400, 300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic.setPixmap(smaller_pixmap)
+#        pic.resize(400,300)
+#        pic.move(50,50)
+#        pic.show()
+
+#        pic1 = QLabel(self)
+#        pixmap2 = QPixmap("astronaut.png")
+#        smaller_pixmap2 = pixmap2.scaled(400,300, Qt.KeepAspectRatio, Qt.FastTransformation)
+#        pic1.setPixmap(smaller_pixmap2)
+#        pic1.resize(400,300)
+#        pic1.move(550,50)
+#        pic1.show()
+
+        # label1 = QLabel("Camera Feed 1", self)
+        # label1.setGeometry(50, 50,400,300)
+        # label1.setStyleSheet("border: 3px solid orange")
+        # label1.setFont(QFont('Times', 15))
+        # label1.setAlignment(Qt.AlignCenter)
+        #
+        # label2 = QLabel("Camera Feed 2", self)
+        # label2.setGeometry(550, 50, 400, 300)
+        # label2.setStyleSheet("border: 3px solid orange")
+        # label2.setFont(QFont('Times', 15))
+        # label2.setAlignment(Qt.AlignCenter)
 
     def _create_buttons(self):
         # buttons dict
@@ -67,11 +118,12 @@ class Window(QMainWindow):
         # create two video feeds
         self.vid1 = QLabel(self)
         self.vid2 = QLabel(self)
+        self.vid2.setGeometry(1000, 50,40,30)
 
         vid_layout = QHBoxLayout()
         vid_layout.addWidget(self.vid1)
         vid_layout.addWidget(self.vid2)
-        
+
         self.general_layout.addLayout(vid_layout)
 
     def _realsense_camera_callback(self, data):
@@ -79,6 +131,7 @@ class Window(QMainWindow):
         self.vid1.setPixmap(pixmap)
 
     def _usb_camera_callback(self, data):
+
         pixmap = self._compressed_image_to_pixmap(data.data, width_scale=self.window_w//2)
         self.vid2.setPixmap(pixmap)
 
@@ -96,6 +149,24 @@ class Window(QMainWindow):
         pixmap = QPixmap.fromImage(qt_img)
 
         return pixmap
+
+
+
+    def sliderValueChanged(self):
+            self.getMapImage(self.latitude, self.longitude, self.slider.value())
+            self.label3.clear()
+            GPSpixmap = QPixmap('googlemap.png')
+            self.label3.setPixmap(GPSpixmap)
+
+    def getMapImage(self, lat, lng, zoom):
+        urlbase = "http://maps.google.com/maps/api/staticmap?"
+        GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
+        args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
+        args = args + "&key=" + GOOGLEAPIKEY
+        mapURL = urlbase+args
+        urlretrieve(mapURL, 'googlemap.png')
+        img = QPixmap('googlemap.png')
+        return img
 
     def _send_mode(self, msg):
         # publish mode from button
@@ -116,4 +187,3 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
     except rospy.ROSInterruptException:
         pass
-
