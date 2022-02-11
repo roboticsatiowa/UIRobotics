@@ -87,13 +87,12 @@ class Window(QMainWindow):
 
 
         # GPS Container
-<<<<<<< HEAD
         label3 = QLabel("GPS", self)
         label3.setGeometry(700, 400, 200,200)
         label3.setStyleSheet("border: 3px solid orange")
         label3.setFont(QFont('Times', 15))
         label3.setAlignment(Qt.AlignCenter)
-=======
+
         self.label3 = QLabel("GPS", self)
         self.label3.setGeometry(700, 400, 200,200)
         #GPSpixmap = QPixmap('googlemap.png')
@@ -101,7 +100,6 @@ class Window(QMainWindow):
         self.label3.setStyleSheet("border: 3px solid orange")
         self.label3.setFont(QFont('Times', 15))
         self.label3.setAlignment(Qt.AlignCenter)
->>>>>>> 1fdcf369e61f8496e34b00f100827826f1334cbf
         # gpsGeomoetry = self.geometry().bottomRight() - label3.geometry().bottomRight() - QPoint(100, 100)
         # label3.move(gpsGeomoetry)
 
@@ -230,9 +228,9 @@ class Window(QMainWindow):
             self.count = second * 10
 
 			# setting text to the label
-<<<<<<< HEAD
+
             self.label.setText(str(second))
-=======
+
             self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
             #self.label.setText(str(second))
      #method to get latitude
@@ -248,7 +246,6 @@ class Window(QMainWindow):
         self.label3.clear()
         GPSpixmap = QPixmap('googlemap.png')
         self.label3.setPixmap(GPSpixmap)
->>>>>>> 1fdcf369e61f8496e34b00f100827826f1334cbf
 
     def start_action(self):
 		# making flag true
