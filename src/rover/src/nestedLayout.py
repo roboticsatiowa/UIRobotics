@@ -18,14 +18,15 @@ class Window(QMainWindow):
 
         # creating layouts
         self.main_layout = QVBoxLayout()
-
+        self.top_layout = QHBoxLayout()
+        #nest layouts
+        self.main_layout.addLayout(self.top_layout)
 
 
 
         self.gps_layout = QVBoxLayout()
 
         self.gps_button_slider_layout = QGridLayout() # add to gps_layout
-        print("test")
 
         self.central_widget = QWidget()
         self.central_widget.setLayout(self.main_layout)
@@ -33,6 +34,15 @@ class Window(QMainWindow):
         self.main_layout.addLayout(self.gps_layout)
 
         self._create_buttons()
+        self._create_video_feeds()
+        
+    def _create_video_feeds(self):
+        self.vid1 = QLabel(self) #realsense
+        self.vid2 = QLabel(self)
+        self.vid1.setStyleSheet("border: 3px solid orange")
+        self.vid2.setStyleSheet("border: 3px solid orange")
+        self.top_layout.addWidget(self.vid1)
+        self.top_layout.addWidget(self.vid2)
 
     def _create_buttons(self):
         self.buttons = {}
@@ -53,7 +63,6 @@ class Window(QMainWindow):
 
 
 if __name__ == '__main__':
-    print("test")
     app = QApplication(sys.argv)
 
     window = Window()
