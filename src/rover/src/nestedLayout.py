@@ -25,6 +25,7 @@ class Window(QMainWindow):
         self.bottom_middle_layout = QVBoxLayout()
         self.bottom_right_layout = QVBoxLayout()
         self.gps_layout = QVBoxLayout()
+        self.lat_lng_layout = QHBoxLayout()
 
         #nest layouts
         self.main_layout.addLayout(self.top_layout)
@@ -32,9 +33,9 @@ class Window(QMainWindow):
         self.bottom_layout.addLayout(self.bottom_left_layout)
         self.bottom_layout.addLayout(self.bottom_middle_layout)
         self.bottom_layout.addLayout(self.bottom_right_layout)
-
-        self.gps_layout.addLayout(self.bottom_right_layout)
-        self.bottom_layout.addLayout(self.bottom_left_layout)
+        self.bottom_right_layout.addLayout(self.gps_layout)
+        self.bottom_right_layout.addLayout(self.lat_lng_layout)
+    
 
          # add to gps_layout
 
@@ -88,7 +89,7 @@ class Window(QMainWindow):
             self.buttons[btnText].clicked.connect(lambda state, msg=btnText: self._send_mode(msg))
 
             # add button to button layout
-            self.bottom_right_layout.addWidget(self.buttons[btnText])
+            self.lat_lng_layout.addWidget(self.buttons[btnText])
 
     def _create_slider(self):
         self.slider = QSlider(Qt.Horizontal, self)
