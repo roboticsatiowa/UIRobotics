@@ -24,6 +24,7 @@ class Window(QMainWindow):
         self.bottom_left_layout = QVBoxLayout()
         self.bottom_middle_layout = QVBoxLayout()
         self.bottom_right_layout = QVBoxLayout()
+        self.gps_layout = QVBoxLayout()
 
         #nest layouts
         self.main_layout.addLayout(self.top_layout)
@@ -32,10 +33,9 @@ class Window(QMainWindow):
         self.bottom_layout.addLayout(self.bottom_middle_layout)
         self.bottom_layout.addLayout(self.bottom_right_layout)
 
-        self.gps_layout.addLayout(self.bottom_right)
-        self.bottom_layout.addLayout(self.bottom_left)
+        self.gps_layout.addLayout(self.bottom_right_layout)
+        self.bottom_layout.addLayout(self.bottom_left_layout)
 
-        #self.gps_layout = QVBoxLayout()
          # add to gps_layout
 
         self.central_widget = QWidget()
@@ -43,7 +43,7 @@ class Window(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.main_layout.addLayout(self.gps_layout)
 
-        self._create_silder()
+        self._create_slider()
         self._create_gps_buttons()
         self._create_video_feeds()
         self._create_gps()
@@ -88,7 +88,7 @@ class Window(QMainWindow):
             self.buttons[btnText].clicked.connect(lambda state, msg=btnText: self._send_mode(msg))
 
             # add button to button layout
-            self.bottom_right.addWidget(self.buttons[btnText], pos[0], pos[1])
+            self.bottom_right_layout.addWidget(self.buttons[btnText])
 
     def _create_slider(self):
         self.slider = QSlider(Qt.Horizontal, self)
@@ -99,7 +99,7 @@ class Window(QMainWindow):
         self.slider.setTickInterval(1)
         # self.slider.setGeometry(700, 600, 200, 50)
         # self.slider.valueChanged.connect(self.sliderValueChanged)
-        self.bottom_right.addWidget(self.slider)
+        self.bottom_right_layout.addWidget(self.slider)
 
     def _create_gps(self):
         # label3 = QLabel("GPS", self)
@@ -154,9 +154,9 @@ class Window(QMainWindow):
         # manualButton.clicked.connect(self.manual_action)
 
         #adding buttons to layout
-        self.bottom_left.addWidget(self.stopButton)
-        self.bottom_left.addWidget(self.autoButton)
-        self.bottom_left.addWidget(self.manualButton)
+        self.bottom_left_layout.addWidget(self.stopButton)
+        self.bottom_left_layout.addWidget(self.autoButton)
+        self.bottom_left_layout.addWidget(self.manualButton)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
