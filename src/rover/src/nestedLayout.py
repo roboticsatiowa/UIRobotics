@@ -18,11 +18,23 @@ class Window(QMainWindow):
 
         # creating layouts
         self.main_layout = QVBoxLayout()
+
+
+
+
         self.gps_layout = QVBoxLayout()
-        self.gps_button_slider_layout = QFormLayout() # add to gps_layout
+
+        self.gps_button_slider_layout = QGridLayout() # add to gps_layout
         print("test")
 
-    def _create_buttons():
+        self.central_widget = QWidget()
+        self.central_widget.setLayout(self.main_layout)
+        self.setCentralWidget(self.central_widget)
+        self.main_layout.addLayout(self.gps_layout)
+
+        self._create_buttons()
+
+    def _create_buttons(self):
         self.buttons = {}
         buttons = {'LAT': (0, 0), 'LNG': (0,1)}
 
@@ -37,7 +49,7 @@ class Window(QMainWindow):
 
             # add button to button layout
             self.gps_button_slider_layout.addWidget(self.buttons[btnText], pos[0], pos[1])
-            self.gps_layout.addLayout(gps_button_slider_layout)
+        self.gps_layout.addLayout(self.gps_button_slider_layout)
 
 
 if __name__ == '__main__':
