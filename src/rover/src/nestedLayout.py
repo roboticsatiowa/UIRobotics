@@ -23,9 +23,11 @@ class Window(QMainWindow):
         self.bottom_layout = QHBoxLayout()
         self.bottom_left_layout = QVBoxLayout()
         self.bottom_middle_layout = QVBoxLayout()
+        self.timer_button_layout = QFormLayout()
         self.bottom_right_layout = QVBoxLayout()
         self.gps_layout = QVBoxLayout()
         self.lat_lng_layout = QHBoxLayout()
+        
 
         #nest layouts
         self.main_layout.addLayout(self.top_layout)
@@ -33,6 +35,7 @@ class Window(QMainWindow):
         self.bottom_layout.addLayout(self.bottom_left_layout)
         self.bottom_layout.addLayout(self.bottom_middle_layout)
         self.bottom_layout.addLayout(self.bottom_right_layout)
+        self.bottom_middle_layout.addLayout(self.timer_button_layout)
         self.bottom_right_layout.addLayout(self.gps_layout)
         self.bottom_right_layout.addLayout(self.lat_lng_layout)
     
@@ -49,7 +52,8 @@ class Window(QMainWindow):
         self._create_video_feeds()
         self._create_gps()
         self._create_modes()
-
+        self._create_timer()
+        self._create_timer_buttons()
 
     def _create_video_feeds(self):
         self.vid1 = QLabel(self) #realsense
@@ -61,20 +65,43 @@ class Window(QMainWindow):
     def _create_mode_buttons(self):
         # creating start button
         self.start_button = QPushButton("Start", self)
-        self.start_button.setGeometry(500, 530, 150, 50)
+        #self.start_button.setGeometry(500, 530, 150, 50)
         self.start_button.clicked.connect(self.start_action)
         # creating pause button
         self.pause_button = QPushButton("Pause", self)
-        self.pause_button.setGeometry(325, 600, 150, 50)
+        #self.pause_button.setGeometry(325, 600, 150, 50)
         self.pause_button.clicked.connect(self.pause_action)
         # creating reset button
         self.reset_button = QPushButton("Reset", self)
-        self.reset_button.setGeometry(500, 600, 150, 50)
+        #self.reset_button.setGeometry(500, 600, 150, 50)
         self.reset_button.clicked.connect(self.reset_action)
 
         self.bottom_left_layout.addWidget(self.start_button)
         self.bottom_left_layout.addWidget(self.pause_button)
         self.bottom_left_layout.addWidget(self.reset_button)
+    def _create_timer(self):
+        
+        self.label = QLabel("//TIMER//", self)
+        self.label.setStyleSheet("border : 3px solid black")
+        self.label.setFont(QFont('Times', 15))
+        self.bottom_middle_layout.addWidget(self.label)
+    def _create_timer_buttons(self):
+         # creating push button to get time in seconds
+         self.button = QPushButton("Set time", self)
+         #self.button.clicked.connect(self.get_seconds)
+         # creating start button
+         self.start_button = QPushButton("Start", self)
+         #self.start_button.clicked.connect(self.start_action)
+         # creating pause button
+         self.pause_button = QPushButton("Pause", self)
+         #self.pause_button.clicked.connect(self.pause_action)
+         # creating reset button
+         self.reset_button = QPushButton("Reset", self)
+         #self.reset_button.clicked.connect(self.reset_action)
+         self.timer_button_layout.addWidget(self.button)
+         self.timer_button_layout.addWidget(self.start_button)
+         self.timer_button_layout.addWidget(self.pause_button)
+         self.timer_button_layout.addWidget(self.reset_button)
     def _create_gps_buttons(self):
         self.buttons = {}
         buttons = {'LAT': (0, 0), 'LNG': (0,1)}
@@ -158,7 +185,7 @@ class Window(QMainWindow):
         self.bottom_left_layout.addWidget(self.stopButton)
         self.bottom_left_layout.addWidget(self.autoButton)
         self.bottom_left_layout.addWidget(self.manualButton)
-
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
