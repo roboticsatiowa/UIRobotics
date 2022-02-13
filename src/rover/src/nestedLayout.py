@@ -19,9 +19,6 @@ class Window(QMainWindow):
         # creating layouts
         self.main_layout = QVBoxLayout()
 
-
-
-
         self.gps_layout = QVBoxLayout()
 
         self.gps_button_slider_layout = QGridLayout() # add to gps_layout
@@ -32,9 +29,15 @@ class Window(QMainWindow):
         self.setCentralWidget(self.central_widget)
         self.main_layout.addLayout(self.gps_layout)
 
-        self._create_buttons()
+        # adding layouts
+        self.gps_layout.addLayout(self.gps_button_slider_layout)
 
-    def _create_buttons(self):
+
+        self._create_gps_buttons()
+        self._create_silder()
+        self._create_gps()
+
+    def _create_gps_buttons(self):
         self.buttons = {}
         buttons = {'LAT': (0, 0), 'LNG': (0,1)}
 
@@ -49,7 +52,32 @@ class Window(QMainWindow):
 
             # add button to button layout
             self.gps_button_slider_layout.addWidget(self.buttons[btnText], pos[0], pos[1])
-        self.gps_layout.addLayout(self.gps_button_slider_layout)
+
+    def _create_silder(self):
+        self.slider = QSlider(Qt.Horizontal, self)
+        self.slider.setMinimum(1)
+        self.slider.setMaximum(24)
+        self.slider.setValue(12)
+        self.slider.setTickPosition(QSlider.TicksBelow)
+        self.slider.setTickInterval(1)
+        # self.slider.setGeometry(700, 600, 200, 50)
+        # self.slider.valueChanged.connect(self.sliderValueChanged)
+        self.gps_button_slider_layout.addWidget(self.slider)
+
+    def _create_gps(self):
+        # label3 = QLabel("GPS", self)
+        # label3.setStyleSheet("border: 3px solid orange")
+        # label3.setFont(QFont('Times', 15))
+        # label3.setAlignment(Qt.AlignCenter)
+
+        self.label3 = QLabel("GPS", self)
+        # self.label3.setGeometry(700, 400, 200,200)
+        # GPSpixmap = QPixmap('googlemap.png')
+        #label3.setPixmap(GPSpixmap)
+        self.label3.setStyleSheet("border: 3px solid orange")
+        self.label3.setFont(QFont('Times', 15))
+        self.label3.setAlignment(Qt.AlignCenter)
+        self.gps_layout.addWidget(self.label3)
 
 
 if __name__ == '__main__':
