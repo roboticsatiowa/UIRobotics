@@ -19,11 +19,12 @@ class Window(QMainWindow):
         # creating layouts
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
+
         self.bottom_layout = QHBoxLayout()
         self.bottom_left_layout = QVBoxLayout()
         self.bottom_middle_layout = QVBoxLayout()
         self.bottom_right_layout = QVBoxLayout()
-        
+
         #nest layouts
         self.main_layout.addLayout(self.top_layout)
         self.main_layout.addLayout(self.bottom_layout)
@@ -31,21 +32,23 @@ class Window(QMainWindow):
         self.bottom_layout.addLayout(self.bottom_middle_layout)
         self.bottom_layout.addLayout(self.bottom_right_layout)
 
+        self.gps_layout.addLayout(self.bottom_right)
+        self.bottom_layout.addLayout(self.bottom_left)
 
         #self.gps_layout = QVBoxLayout()
+         # add to gps_layout
 
-        #self.gps_button_slider_layout = QGridLayout() # add to gps_layout
+        self.central_widget = QWidget()
+        self.central_widget.setLayout(self.main_layout)
+        self.setCentralWidget(self.central_widget)
+        self.main_layout.addLayout(self.gps_layout)
 
-        #self.central_widget = QWidget()
-        #self.central_widget.setLayout(self.main_layout)
-        #self.setCentralWidget(self.central_widget)
-        #self.main_layout.addLayout(self.gps_layout)
-
-        #self._create_gps_buttons()
+        self._create_silder()
+        self._create_gps_buttons()
         self._create_video_feeds()
-        self._create_mode_buttons()
-        #self._create_gps()
-        #self._create_slider()
+        self._create_gps()
+        self._create_modes()
+
 
     def _create_video_feeds(self):
         self.vid1 = QLabel(self) #realsense
@@ -67,7 +70,7 @@ class Window(QMainWindow):
         self.reset_button = QPushButton("Reset", self)
         self.reset_button.setGeometry(500, 600, 150, 50)
         self.reset_button.clicked.connect(self.reset_action)
-        
+
         self.bottom_left_layout.addWidget(self.start_button)
         self.bottom_left_layout.addWidget(self.pause_button)
         self.bottom_left_layout.addWidget(self.reset_button)
@@ -85,7 +88,7 @@ class Window(QMainWindow):
             self.buttons[btnText].clicked.connect(lambda state, msg=btnText: self._send_mode(msg))
 
             # add button to button layout
-            self.gps_button_slider_layout.addWidget(self.buttons[btnText], pos[0], pos[1])
+            self.bottom_right.addWidget(self.buttons[btnText], pos[0], pos[1])
 
     def _create_slider(self):
         self.slider = QSlider(Qt.Horizontal, self)
@@ -96,7 +99,7 @@ class Window(QMainWindow):
         self.slider.setTickInterval(1)
         # self.slider.setGeometry(700, 600, 200, 50)
         # self.slider.valueChanged.connect(self.sliderValueChanged)
-        self.gps_button_slider_layout.addWidget(self.slider)
+        self.bottom_right.addWidget(self.slider)
 
     def _create_gps(self):
         # label3 = QLabel("GPS", self)
@@ -135,6 +138,25 @@ class Window(QMainWindow):
 		# setting label text
         self.label.setText("//TIMER//")
 
+    def _create_modes(self):
+        self.stopButton = QPushButton("STOP ROVER", self)
+
+        # stopButton.clicked.connect(self.stop_action)
+
+        # creating auto mode button
+        self.autoButton = QPushButton("AUTO MODE", self)
+
+        # autoButton.clicked.connect(self.auto_action)
+
+        # creating manual mode button
+        self.manualButton = QPushButton("MANUAL MODE", self)
+
+        # manualButton.clicked.connect(self.manual_action)
+
+        #adding buttons to layout
+        self.bottom_left.addWidget(self.stopButton)
+        self.bottom_left.addWidget(self.autoButton)
+        self.bottom_left.addWidget(self.manualButton)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
