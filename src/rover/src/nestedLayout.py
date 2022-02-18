@@ -19,23 +19,23 @@ class Window(QMainWindow):
         # creating layouts
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
-
         self.bottom_layout = QHBoxLayout()
         self.bottom_left_layout = QVBoxLayout()
         self.bottom_middle_layout = QVBoxLayout()
-        self.timer_button_layout = QFormLayout()
+        self.timer_button_layout = QGridLayout()
         self.bottom_right_layout = QVBoxLayout()
         self.gps_layout = QVBoxLayout()
         self.lat_lng_layout = QHBoxLayout()
         
 
         #nest layouts
+        
         self.main_layout.addLayout(self.top_layout)
         self.main_layout.addLayout(self.bottom_layout)
         self.bottom_layout.addLayout(self.bottom_left_layout)
         self.bottom_layout.addLayout(self.bottom_middle_layout)
         self.bottom_layout.addLayout(self.bottom_right_layout)
-        self.bottom_middle_layout.addLayout(self.timer_button_layout)
+              #self.bottom_middle_layout.addLayout(self.timer_button_layout)
         self.bottom_right_layout.addLayout(self.gps_layout)
         self.bottom_right_layout.addLayout(self.lat_lng_layout)
     
@@ -45,8 +45,7 @@ class Window(QMainWindow):
         self.central_widget = QWidget()
         self.central_widget.setLayout(self.main_layout)
         self.setCentralWidget(self.central_widget)
-        self.main_layout.addLayout(self.gps_layout)
-
+        
         self._create_slider()
         self._create_gps_buttons()
         self._create_video_feeds()
@@ -85,23 +84,28 @@ class Window(QMainWindow):
         self.label.setStyleSheet("border : 3px solid black")
         self.label.setFont(QFont('Times', 15))
         self.bottom_middle_layout.addWidget(self.label)
+        self.bottom_middle_layout.addLayout(self.timer_button_layout)
     def _create_timer_buttons(self):
          # creating push button to get time in seconds
          self.button = QPushButton("Set time", self)
+         self.button.clicked.connect(self.get_seconds)
          #self.button.clicked.connect(self.get_seconds)
          # creating start button
          self.start_button = QPushButton("Start", self)
+         self.start_button.clicked.connect(self.start_action)
          #self.start_button.clicked.connect(self.start_action)
          # creating pause button
          self.pause_button = QPushButton("Pause", self)
+         self.pause_button.clicked.connect(self.pause_action)
          #self.pause_button.clicked.connect(self.pause_action)
          # creating reset button
          self.reset_button = QPushButton("Reset", self)
+         self.reset_button.clicked.connect(self.reset_action)
          #self.reset_button.clicked.connect(self.reset_action)
-         self.timer_button_layout.addWidget(self.button)
-         self.timer_button_layout.addWidget(self.start_button)
-         self.timer_button_layout.addWidget(self.pause_button)
-         self.timer_button_layout.addWidget(self.reset_button)
+         self.timer_button_layout.addWidget((self.button), 0,0)
+         self.timer_button_layout.addWidget((self.start_button), 0,1)
+         self.timer_button_layout.addWidget((self.pause_button), 1,0)
+         self.timer_button_layout.addWidget((self.reset_button), 1,1)
     def _create_gps_buttons(self):
         self.buttons = {}
         buttons = {'LAT': (0, 0), 'LNG': (0,1)}
@@ -126,7 +130,7 @@ class Window(QMainWindow):
         self.slider.setTickPosition(QSlider.TicksBelow)
         self.slider.setTickInterval(1)
         # self.slider.setGeometry(700, 600, 200, 50)
-        # self.slider.valueChanged.connect(self.sliderValueChanged)
+        #self.slider.valueChanged.connect(self.sliderValueChanged)
         self.bottom_right_layout.addWidget(self.slider)
 
     def _create_gps(self):
@@ -142,7 +146,9 @@ class Window(QMainWindow):
         self.label3.setStyleSheet("border: 3px solid orange")
         self.label3.setFont(QFont('Times', 15))
         self.label3.setAlignment(Qt.AlignCenter)
+        #self.gps_layout.addWidget(self.label3)
         self.gps_layout.addWidget(self.label3)
+    
     def start_action(self):
 		# making flag true
         self.start = True
@@ -165,6 +171,47 @@ class Window(QMainWindow):
 
 		# setting label text
         self.label.setText("//TIMER//")
+    def get_seconds(self):
+
+		# making flag false
+        self.start = False
+
+		# getting seconds and flag
+        second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
+
+		# if flag is true
+        if done:
+			# changing the value of count
+            self.count = second * 10
+
+			# setting text to the label
+
+            self.label.setText(str(second))
+
+            self.label.setText(str(hrs)+":"+str(mins)+":"+str(second))
+    def start_action(self):
+		# making flag true
+        self.start = True
+
+		# count = 0
+        if self.count == 0:
+            self.start = False
+    def pause_action(self):
+
+		# making flag false
+        self.start = False
+
+    def reset_action(self):
+
+		# making flag false
+        self.start = False
+
+		# setting count value to 0
+        self.count = 0
+
+		# setting label text
+        self.label.setText("//TIMER//")
+
 
     def _create_modes(self):
         self.stopButton = QPushButton("STOP ROVER", self)
@@ -185,6 +232,30 @@ class Window(QMainWindow):
         self.bottom_left_layout.addWidget(self.stopButton)
         self.bottom_left_layout.addWidget(self.autoButton)
         self.bottom_left_layout.addWidget(self.manualButton)
+    
+    def showTime(self):
+
+		# checking if flag is true
+        if self.start:
+			# incrementing the counter
+            self.count -= 1
+
+			# timer is completed
+            if self.count == 0:
+
+				# making flag false
+                self.start = False
+
+				# setting text to the label
+                self.label.setText("Completed !!!! ")
+
+        if self.start:
+			# getting text from count
+            text = str(self.count / 10) + " s"
+
+			# showing text
+            self.label.setText(text)
+    
         
 if __name__ == '__main__':
     app = QApplication(sys.argv)
