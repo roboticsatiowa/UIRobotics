@@ -1,7 +1,6 @@
 <launch>
 
   <!-- launch nodes  -->
-  <node name="controller_driver" pkg="rover" type="controller_driver.py" output="screen"/>
   <node name="left_wheels" pkg="rover" type="left_wheels.py" output="screen"/>
   <node name="right_wheels" pkg="rover" type="right_wheels.py" output="screen"/>
 

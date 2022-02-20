@@ -1,0 +1,6 @@
+<launch>
+
+  <!-- launch nodes  -->
+  <node name="controller_driver" pkg="rover" type="controller_driver.py" output="screen"/>
+
+</launch>
