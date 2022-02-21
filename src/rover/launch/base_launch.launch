@@ -2,5 +2,7 @@
 
   <!-- launch nodes  -->
   <node name="controller_driver" pkg="rover" type="controller_driver.py" output="screen"/>
+  <node name="gui" pkg="rover" type="gui.py" output="screen"/>
+  <node name="dummy_control" pkg="rover" type="dummy_control.py" output="screen"/>
 
 </launch>
