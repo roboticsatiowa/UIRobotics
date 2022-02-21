@@ -8,8 +8,8 @@ import adafruit_pca9685
 i2c = busio.I2C(board.SCL,board.SDA)
 pca = adafruit_pca9685.PCA9685(i2c)
 pca.frequency = 1000
-left_outer = pca.channels[1]
-left_inner = pca.channels[2]
+left_outer = pca.channels[6]
+left_inner = pca.channels[9]
 
 turning = False
 
