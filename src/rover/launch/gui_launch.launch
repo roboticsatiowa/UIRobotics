@@ -8,7 +8,7 @@
     <!-- node name and ros graph name -->
     <arg name="camera_name" value="usb_camera_0" />
     <!-- means video device 0, /dev/video0 -->
-    <arg name="video_stream_provider" value="2" />
+    <arg name="video_stream_provider" value="0" />
     <!-- set camera fps to (if the device allows) -->
     <arg name="set_camera_fps" value="30"/>
     <!-- set buffer queue size of frame capturing to -->
