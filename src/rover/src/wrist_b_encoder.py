@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
-import board
-import busio
 import time
-import adafruit_pca9685
 import rospy
 from std_msgs.msg import Int32
 from digitalio import DigitalInOut, Direction, Pull
@@ -11,16 +8,11 @@ def talker():
     pub_wrist = rospy.Publisher('wrist_b_encoder',Int32,queue_size=10)
     rospy.init_node('wrist_b_encoder')
 
-    i2c = busio.I2C(board.SCL,board.SDA)
-    pca = adafruit_pca9685.PCA9685(i2c)
-
     encoder_pin = #encoder pin
 
     enc = DigitalInOut(encoder_pin)
     enc.direction = Direction.INPUT
     enc.pull = Pull.UP
-
-    pca.frequency = 1000
 
     rate = rospy.Rate(10)
 
