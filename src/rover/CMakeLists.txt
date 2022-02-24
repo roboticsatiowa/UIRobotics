@@ -166,22 +166,19 @@ catkin_install_python(PROGRAMS
     src/arm_shoulder.py
     src/base_encoder.py
     src/controller_driver.py
-    src/dummy_control.py
     src/elbow_encoder.py
     src/gps.py
     src/gripper_encoder.py
     src/gui.py
-    src/hand_control.py
     src/hand_grip.py
     src/left_wheels.py
     src/right_wheels.py
-    src/science_kit.py
     src/shoulder_encoder.py
-    src/wheel_control.py
     src/wrist_a_encoder.py
     src/wrist_a.py
     src/wrist_b_encoder.py
     src/wrist_b.py
+    src/wrist_control.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
