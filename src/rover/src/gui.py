@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
 import sys
+import time
+import datetime
 from functools import partial
 import cv2
 import numpy as np
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
 import rospy
@@ -51,6 +53,7 @@ class Window(QMainWindow):
         self.bottom_layout.addLayout(self.bottom_right_layout)
         self.bottom_right_layout.addLayout(self.gps_layout)
         self.bottom_right_layout.addLayout(self.lat_lng_layout)
+        self.bottom_middle_layout.addLayout(self.timer_button_layout)
 
 
         self.central_widget = QWidget()
@@ -60,8 +63,8 @@ class Window(QMainWindow):
         # create gui within layout
         self._create_modes()
         self._create_video_feeds()
-        self._create_timer()
-        self._create_timer_buttons()
+        self._create_timer_components()
+
 
     def _create_modes(self):
         self.stopButton = QPushButton("STOP ROVER", self)
@@ -89,83 +92,63 @@ class Window(QMainWindow):
         self.top_layout.addWidget(self.vid1)
         self.top_layout.addWidget(self.vid2)
 
-    def _create_timer(self):
-        self.label = QLabel("//TIMER//", self)
-        self.label.setStyleSheet("border : 3px solid black")
-        self.label.setFont(QFont('Times', 15))
-        self.bottom_middle_layout.addWidget(self.label)
-        self.bottom_middle_layout.addLayout(self.timer_button_layout)
-
-    def _create_timer_buttons(self):
-         # creating push button to get time in seconds
-         self.button = QPushButton("Set time", self)
-         self.button.clicked.connect(self.get_seconds)
-         #self.button.clicked.connect(self.get_seconds)
-         # creating start button
-         self.start_button = QPushButton("Start", self)
-         self.start_button.clicked.connect(self.start_action)
-         #self.start_button.clicked.connect(self.start_action)
-         # creating pause button
-         self.pause_button = QPushButton("Pause", self)
-         self.pause_button.clicked.connect(self.pause_action)
-         #self.pause_button.clicked.connect(self.pause_action)
-         # creating reset button
-         self.reset_button = QPushButton("Reset", self)
-         self.reset_button.clicked.connect(self.reset_action)
-         #self.reset_button.clicked.connect(self.reset_action)
-         self.timer_button_layout.addWidget((self.button), 0,0)
-         self.timer_button_layout.addWidget((self.start_button), 0,1)
-         self.timer_button_layout.addWidget((self.pause_button), 1,0)
-         self.timer_button_layout.addWidget((self.reset_button), 1,1)
-
-    def reset_action(self):
-		# making flag false
-        self.start = False
-
-		# setting count value to 0
+    def _create_timer_components(self):
         self.count = 0
+        self.start = False
+        button = QPushButton("Set Time", self)
+        button.clicked.connect(self.get_seconds)
 
-		# setting label text
-        self.label.setText("//TIMER//")
+        self.label = QLabel("//TIMER//", self)
+        self.bottom_layout.addWidget(self.label)
+
+        start_button = QPushButton("Start", self)
+        start_button.clicked.connect(self.start_action)
+        pause_button = QPushButton("Pause", self)
+        pause_button.clicked.connect(self.pause_action)
+        reset_button = QPushButton("Reset", self)
+        reset_button.clicked.connect(self.reset_action)
+
+        self.timer_button_layout.addWidget(self.label)
+        self.timer_button_layout.addWidget(button)
+        self.timer_button_layout.addWidget(start_button)
+        self.timer_button_layout.addWidget(pause_button)
+        self.timer_button_layout.addWidget(reset_button)
+        timer = QTimer(self)
+        timer.timeout.connect(self.showTime)
+        timer.start(100)
+
+    def showTime(self):
+        if self.start:
+            self.count -= 1
+            if self.count == 0:
+                self.start = False
+                self.label.setText("Completed")
+        if self.start:
+            text = str(self.count / 10) + " s"
+
+            self.label.setText(text)
 
     def get_seconds(self):
-
-		# making flag false
         self.start = False
-
-		# getting seconds and flag
         second, done = QInputDialog.getInt(self, 'Seconds', 'Enter Seconds:')
 
-		# if flag is true
         if done:
-			# changing the value of count
             self.count = second * 10
-
-			# setting text to the label
 
             self.label.setText(str(second))
 
     def start_action(self):
-		# making flag true
         self.start = True
-
-		# count = 0
         if self.count == 0:
             self.start = False
-    def pause_action(self):
 
-		# making flag false
+    def pause_action(self):
         self.start = False
 
     def reset_action(self):
-
-		# making flag false
         self.start = False
 
-		# setting count value to 0
-        self.count = 0
-
-		# setting label text
+        self.count = 0;
         self.label.setText("//TIMER//")
 
     def _realsense_camera_callback(self, data):
