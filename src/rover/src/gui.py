@@ -117,8 +117,6 @@ class Window(QMainWindow):
         timer.timeout.connect(self.showTime)
         timer.start(100)
 
-
-
     def showTime(self):
         if self.start:
             self.count -= 1
@@ -152,9 +150,6 @@ class Window(QMainWindow):
 
         self.count = 0;
         self.label.setText("//TIMER//")
-
-
-
 
     def _realsense_camera_callback(self, data):
         pixmap = self._compressed_image_to_pixmap(data.data, width_scale=self.window_w//2)
