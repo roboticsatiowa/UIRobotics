@@ -36,7 +36,6 @@ class Window(QMainWindow):
 
         # create general layout
         # TODO: why is central widget necessary?
-        # self.general_layout = QVBoxLayout()
         self.main_layout = QVBoxLayout()
         self.top_layout = QHBoxLayout()
         self.bottom_layout = QHBoxLayout()
@@ -50,7 +49,6 @@ class Window(QMainWindow):
         self.bottom_right_widget.setLayout(self.bottom_right_layout)
         self.bottom_right_widget.setFixedWidth(480)
         self.bottom_layout.addWidget(self.bottom_right_widget)
-        # self.slider_layout = QVBoxLayout()
         self.main_layout.addLayout(self.top_layout)
         self.main_layout.addLayout(self.bottom_layout)
         self.bottom_layout.addLayout(self.bottom_left_layout)
@@ -59,10 +57,10 @@ class Window(QMainWindow):
         self.bottom_right_layout.addLayout(self.gps_layout)
         self.bottom_right_layout.addLayout(self.lat_lng_layout)
         self.bottom_middle_layout.addLayout(self.timer_button_layout)
-        # self.gps_layout.addLayout(self.slider_layout)
-        self.bottom_right_layout.setStretch(2,-2) #change width?
 
-        #QSizePolicy class?
+        # self.bottom_right_layout.setStretch(2,-2)
+
+
 
 
         self.central_widget = QWidget()
@@ -98,12 +96,12 @@ class Window(QMainWindow):
     def _create_gps_buttons(self):
         #creating latitude input text box
         latitudeButton = QPushButton("Set Latitude", self)
-        latitudeButton.clicked.connect(self.getLatitude)
+        latitudeButton.clicked.connect(self._get_latitude)
         latitudeButton.setFont(QFont('Times', 11))
 
         #creating longitude input text box
         longitudeButton = QPushButton("Set Longitude", self)
-        longitudeButton.clicked.connect(self.getLongitude)
+        longitudeButton.clicked.connect(self._get_longitude)
         longitudeButton.setFont(QFont('Times', 11))
 
         self.lat_lng_layout.addWidget(latitudeButton)
@@ -117,29 +115,19 @@ class Window(QMainWindow):
         self.slider.setTickPosition(QSlider.TicksBelow)
         self.slider.setTickInterval(1)
         self.slider.setGeometry(400, 30, 800, 1000)
-        # self.slider.setGeometry(700, 600, 200, 50)
-        #self.slider.valueChanged.connect(self.sliderValueChanged)
-        self.slider.valueChanged.connect(self.sliderValueChanged)
+        self.slider.valueChanged.connect(self._slider_value_changed)
         self.bottom_right_layout.addWidget(self.slider)
 
     def _create_gps(self):
-        # label3 = QLabel("GPS", self)
-        # label3.setStyleSheet("border: 3px solid orange")
-        # label3.setFont(QFont('Times', 15))
-        # label3.setAlignment(Qt.AlignCenter)
 
         self.label3 = QLabel("GPS", self)
-        # self.label3.setGeometry(700, 400, 200,200)
-        # GPSpixmap = QPixmap('googlemap.png')
-        #label3.setPixmap(GPSpixmap)
         self.label3.setStyleSheet("border: 3px solid orange")
         self.label3.setFont(QFont('Times', 15))
         self.label3.setAlignment(Qt.AlignCenter)
-        #self.gps_layout.addWidget(self.label3)
         self.gps_layout.addWidget(self.label3)
 
 
-    def getMapImage(self, lat, lng, zoom):
+    def _get_map_image(self, lat, lng, zoom):
         urlbase = "http://maps.google.com/maps/api/staticmap?"
         GOOGLEAPIKEY = "AIzaSyCHD0L-s_gWE6VTNumgn1TMCEhiDTEok_U"
         args = "center={},{}&zoom={}&size={}x{}&format=gif&maptype={}&markers=color:red|size:small|{},{}|".format(lat,lng,zoom,400,400,"hybrid",lat,lng)
@@ -149,15 +137,15 @@ class Window(QMainWindow):
         img = QPixmap('googlemap.png')
         return img
 
-    def getLatitude(self):
+    def _get_latitude(self):
         self.latitude, ok = QInputDialog.getDouble(self, "Latitude", "Enter Latitude", 0, -90, 90)
     #method to get longitude
-    def getLongitude(self):
+    def _get_longitude(self):
         self.longitude, ok = QInputDialog.getDouble(self, "Longitude", "Enter Longitude", 0, -180, 180)
 
     #slider value change method
-    def sliderValueChanged(self):
-        self.getMapImage(self.latitude, self.longitude, self.slider.value())
+    def _slider_value_changed(self):
+        self._get_map_image(self.latitude, self.longitude, self.slider.value())
         self.label3.clear()
         GPSpixmap = QPixmap('googlemap.png')
         self.label3.setPixmap(GPSpixmap)
@@ -193,10 +181,10 @@ class Window(QMainWindow):
         self.timer_button_layout.addWidget(pause_button)
         self.timer_button_layout.addWidget(reset_button)
         timer = QTimer(self)
-        timer.timeout.connect(self.showTime)
+        timer.timeout.connect(self._show_time)
         timer.start(100)
 
-    def showTime(self):
+    def _show_time(self):
         if self.start:
             self.count -= 1
             if self.count == 0:
