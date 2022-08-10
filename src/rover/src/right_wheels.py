@@ -18,6 +18,8 @@ mostRecentLeftData = -1
 
 def callback(data):
     global turning
+    global mostRecentLeftData
+    global mostRecentRightData
     rospy.loginfo(data.data)
     mostRecentRightData = data.data
     
@@ -26,14 +28,16 @@ def callback(data):
         turning = (mostRecentRightData - 32768 > 0 and mostRecentLeftData - 32768 < 0) or (mostRecentRightData - 32768 < 0 and mostRecentLeftData - 32768 > 0)
     
     if turning:
-        right_outer.duty_cycle = data.data
-        right_inner.duty_cycle = int((data.data-32768)*.712)+32768
+        right_outer.duty_cycle = int(data.data/(4/3))+8192
+        right_inner.duty_cycle = int(data.data/(4/3))+8192
+        #right_inner.duty_cycle = int((((data.data-32768)*.793)+32768)/(4/3))+8192
     else:
-        right_outer.duty_cycle = data.data
-        right_inner.duty_cycle = data.data
+        right_outer.duty_cycle = int(data.data/(4/3))+8192
+        right_inner.duty_cycle = int(data.data/(4/3))+8192
         
 def leftCallback(leftData):
     global turning
+    global mostRecentLeftData
     #rospy.loginfo(leftData.data)
     mostRecentLeftData = leftData.data
     

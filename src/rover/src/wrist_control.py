@@ -25,9 +25,9 @@ def wrist_left(data):
     rot = (left_data-2**15)*(right_data-2**15)<0
     if rot:
         publish([left_data,right_data])
-    elif !rot and angle >= -90 and left_data < 2**15 and right_data < 2**15:
+    elif not rot and angle >= -90 and left_data < 2**15 and right_data < 2**15:
         publish([left_data,right_data])
-    elif !rot and angle <= 90 and left_data > 2**15 and right_data > 2**15:
+    elif not rot and angle <= 90 and left_data > 2**15 and right_data > 2**15:
         publish([left_data,right_data])
     else:
         publish([2**15,2**15])
@@ -41,9 +41,9 @@ def wrist_right(data):
     rot = (left_data-2**15)*(right_data-2**15)<0
     if rot:
         publish([left_data,right_data])
-    elif !rot and angle >= -90 and left_data < 2**15 and right_data < 2**15:
+    elif not rot and angle >= -90 and left_data < 2**15 and right_data < 2**15:
         publish([left_data,right_data])
-    elif !rot and angle <= 90 and left_data > 2**15 and right_data > 2**15:
+    elif not rot and angle <= 90 and left_data > 2**15 and right_data > 2**15:
         publish([left_data,right_data])
     else:
         publish([2**15,2**15])
@@ -53,13 +53,14 @@ def wrist_a_callback(data):
     global angle
     global right_data
     global left_data
-    if !rot:
+    if not rot:
         if right_data < 2**15 and left_data < 2**15:
-            angle -= #degrees per encoder turn
+            angle -= 360/68
         elif right_data > 2**15 and left_data > 2**15:
-            angle += #degrees per encoder turn
+            angle += 360/68
         if angle > 90 or angle < -90:
             publish([2**15,2**15])
+        print(angle)
 
 def main():
     global pub_wrist_a
@@ -79,7 +80,7 @@ def main():
     rospy.Subscriber('wrist_right',Int32,wrist_right)
 
     rospy.Subscriber('wrist_a_encoder',Int32,wrist_a_callback)
-    rospy.Subscriber('wrist_b_encoder',Int32,wrist_b_callback)
+    #rospy.Subscriber('wrist_b_encoder',Int32,wrist_b_callback)
 
     rospy.spin()
 

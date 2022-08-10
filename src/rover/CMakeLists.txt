@@ -179,6 +179,7 @@ catkin_install_python(PROGRAMS
     src/wrist_b_encoder.py
     src/wrist_b.py
     src/wrist_control.py
+    src/enabler.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

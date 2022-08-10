@@ -8,10 +8,11 @@ import adafruit_pca9685
 i2c = busio.I2C(board.SCL,board.SDA)
 pca = adafruit_pca9685.PCA9685(i2c)
 pca.frequency = 1000
-w_channel = pca.channels[0]
+w_channel = pca.channels[2]
 
 def callback_a(data):
-    w_channel.duty_cycle - data.data
+    w_channel.duty_cycle = data.data
+    rospy.loginfo(data.data)
 
 def wrist_a():
     rospy.init_node('wrist_a')

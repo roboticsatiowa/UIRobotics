@@ -9,6 +9,10 @@ def talker():
     mode = 0 #0 is drive, 1 is arm, 2 is claw
     rightTrig = 0
     leftTrig = 0
+    y_left = 0
+    x_left = 0
+    y_right = 0
+    y_left =0
 
     #create publishers
     pub_xPos = rospy.Publisher('xPos',Int32,queue_size=None)
@@ -55,7 +59,7 @@ def talker():
             pub_left.publish(y_left+2**15)
             pub_right.publish(y_right+2**15)
         elif mode == 1:
-            #arm input
+            print("mode 1")
         elif mode == 2:
             left_wrist.publish(y_left+2**15)
             right_wrist.publish(y_right+2**15)
