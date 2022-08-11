@@ -1,8 +1,7 @@
 <launch>
 
   <!-- launch nodes  -->
-  <node name="left_wheels" pkg="rover" type="left_wheels.py" output="screen"/>
-  <node name="right_wheels" pkg="rover" type="right_wheels.py" output="screen"/>
+  <node name="wheels" pkg="rover" type="wheels.py" output="screen"/>
   <node name="enabler" pkg="rover" type="enabler.py" output="screen"/>
 
 

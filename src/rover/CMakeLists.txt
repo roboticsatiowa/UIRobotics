@@ -162,12 +162,13 @@ include_directories(
 catkin_install_python(PROGRAMS
     src/controller_driver.py
     src/gui.py
-    src/left_wheels.py
-    src/right_wheels.py
+    src/wheels.py
     src/enabler.py
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
+# src/left_wheels.py
+# src/right_wheels.py
 # src/arm_base.py
 # src/arm_control.py
 # src/arm_elbow.py
