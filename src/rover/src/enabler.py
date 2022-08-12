@@ -10,7 +10,7 @@ class Enabler():
         self.output_pin = 18 # 12 on Jetson Nano header
 
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(output_pin, GPIO.OUT, initial=GPIO.HIGH)
+        GPIO.setup(self.output_pin, GPIO.OUT, initial=GPIO.HIGH)
 
         # ros pub and sub
         rospy.Subscriber('/enabled', Bool, self.enabled_callback)
