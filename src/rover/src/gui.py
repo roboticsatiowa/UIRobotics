@@ -52,16 +52,17 @@ class Window(QMainWindow):
         self.vid1 = QLabel(self)
         self.vid2 = QLabel(self)
 
-        self.top_layout.addWidget(QLabel("Latitude: ", self))
         self.top_layout.addWidget(self.vid1)
-        self.top_layout.addWidget(QLabel("Longitude: ", self))
         self.top_layout.addWidget(self.vid2)
 
     def _create_gps_labels(self):
         self.lat_label = QLabel(self)
         self.long_label = QLabel(self)
 
+
+        self.top_layout.addWidget(QLabel("Latitude: ", self))
         self.bottom_layout.addWidget(self.lat_label)
+        self.top_layout.addWidget(QLabel("Longitude: ", self))
         self.bottom_layout.addWidget(self.long_label)
 
     def _usb_camera_callback_0(self, data):
