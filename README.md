@@ -48,6 +48,8 @@ _Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsen
 - git add <file/folder name> - stage a file for commit 
 - git commit -m “COMMENT” - commit changes to branch 
   - -a -m “COMMENT” - commit all changes 
+  
+### Extra resources: 
 
 
 
