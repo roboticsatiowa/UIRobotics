@@ -56,7 +56,9 @@ _Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsen
 ### Launching rover and base station 
 - Connect antennas 
 - ssh into Jetson 
-  - >>> ssh robotics@192.168.1.23 
+```
+  - >>> ssh robotics@192.168.1.23
+```
 - Run rover launch file 
   - >>> ./ launch_rover.sh.sh 
 - Open base station terminal 
