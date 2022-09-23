@@ -25,6 +25,7 @@ _Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsen
 
 - Install [video-stream-opencv](https://github.com/ros-drivers/video_stream_opencv) package: `sudo apt-get install ros-melodic-video-stream-opencv`
 
+__________________________________________________________________________________________________________________________________________________________
 
 ### Terminal Commands:
 - ls – list all files in current directory 
