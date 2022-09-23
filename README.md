@@ -65,7 +65,9 @@ _Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsen
 ```
 - Open base station terminal 
 - Run base station launch file 
-  - >>> ./ launch_base.sh 
+```
+  >>> ./ launch_base.sh 
+  ```
 - Rover running :) 
 
 
