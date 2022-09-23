@@ -50,7 +50,19 @@ _Note_ : Currently `launch_gui.sh` only launches (1) the sample GUI with realsen
   - -a -m “COMMENT” - commit all changes 
   
 ### Extra resources: 
+- https://docs.gitlab.com/ee/gitlab-basics/start-using-git.html  
+- https://www.techrepublic.com/article/16-terminal-commands-every-user-should-know/  
 
+### Launching rover and base station 
+- Connect antennas 
+- ssh into Jetson 
+  - >>> ssh robotics@192.168.1.23 
+- Run rover launch file 
+  - >>> ./ launch_rover.sh.sh 
+- Open base station terminal 
+- Run base station launch file 
+  - >>> ./ launch_base.sh 
+- Rover running :) 
 
 
 ### TODO:
