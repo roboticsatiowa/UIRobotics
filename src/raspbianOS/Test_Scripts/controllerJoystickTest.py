@@ -1,4 +1,4 @@
-from pyautogui import size
+from pyautogui
 import pygame
 from xboxController import getInputs
 
