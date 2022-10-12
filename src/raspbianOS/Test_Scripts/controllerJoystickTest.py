@@ -1,5 +1,3 @@
-from ast import Lt
-from tabnanny import check
 from pyautogui import size
 import pygame
 from xboxController import getInputs
