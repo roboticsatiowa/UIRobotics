@@ -25,7 +25,10 @@ class XBcontroller():
     }
     
     def __init__(self):
-        self.joystick = pygame.joystick.Joystick(0)
+        try:
+            self.joystick = pygame.joystick.Joystick(0)
+        except:
+            print("\x1b[91m" + "WARNING: No xbox controller connected" + "\x1b[0m")
         
     def update(self) -> None:
         self.A = bool(self.joystick.get_button(0))
