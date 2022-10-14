@@ -1,3 +1,12 @@
+# This script uses the pygame library to get xbox controller inputs and store them as a dictionary to be used in other scripts
+# When run as main it will print a live feed of input values to the terminal
+# can import the getInputs() funtion to other scripts
+# 
+# TODO:
+# - restructure as a class to make access of controller input values more streamlined
+# - normalize input axis to a constant magnitude
+# - fix flickering in terminal
+
 import pygame
 import os
 from time import sleep
@@ -5,11 +14,13 @@ from time import sleep
 pygame.init()
 xboxController = pygame.joystick.Joystick(0)
 
+# should probably be structured as a different data type
+# todo: normalize the [x,y] vectors
 def getInputs(controller:pygame.joystick.Joystick) -> dict:
     '''Returns a dict of each button mapped to its value'''
     return {
-            "B": bool(controller.get_button(1)),
             "A": bool(controller.get_button(0)),
+            "B": bool(controller.get_button(1)),
             "X": bool(controller.get_button(2)),
             "Y": bool(controller.get_button(3)),
             "LB": bool(xboxController.get_button(4)),

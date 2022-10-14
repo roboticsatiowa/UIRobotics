@@ -1,3 +1,5 @@
+# Creates a visual window for testing/debugging of the controller
+
 import pygame
 from xboxController import getInputs
 
@@ -17,6 +19,7 @@ def checkExit():
 
 # draw to the pygame window
 def draw():
+    # dictionary of controller input states
     inputs = getInputs(pygame.joystick.Joystick(0))
     
     screen.fill(background_colour)
@@ -25,7 +28,7 @@ def draw():
     pygame.draw.circle(screen, (0,0,0), (inputs['Lstick_x']*30 + 100, -inputs['Lstick_y']*30 + 100), 5)
     pygame.draw.circle(screen, (0,0,0), (inputs['Rstick_x']*30 + 300, -inputs['Rstick_y']*30 + 100), 5)
     
-    # draw trigger values
+    # draw trigger rectangles
     Rtrig, Ltrig = inputs['Rtrig']*75 + 5, inputs['Ltrig']*75 + 5
     pygame.draw.rect(screen, (0,0,0), pygame.rect.Rect(20, 150-Ltrig, 10, Ltrig))
     pygame.draw.rect(screen, (0,0,0), pygame.rect.Rect(380, 150-Rtrig, 10, Rtrig))
