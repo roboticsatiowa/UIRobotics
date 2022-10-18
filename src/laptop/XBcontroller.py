@@ -58,9 +58,9 @@ class XBcontroller():
             return '' 
         self.update()
         if event.type == 1536: # AXIS CHANGED (Sticks and Triggers)
-            return f"AXIS_CHANGED: {self.axes[event.dict['axis']]} {event.dict['value']}"
+            return f"AXIS_CHANGED {self.axes[event.dict['axis']]} {event.dict['value']}"
         if event.type == 1538: # HAT CHANGED (D-Pad)
-            return f"HAT_CHANGED: {event.dict['value']}"
+            return f"HAT_CHANGEDs {event.dict['value']}"
         if event.type == 1539: # BUTTON PRESSED
             return f"PRESSED {self.buttons[event.dict['button']]}"
         if event.type == 1540: # BUTTON RELEASED

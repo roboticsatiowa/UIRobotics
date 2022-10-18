@@ -1,5 +1,0 @@
-laptop_ip: 192.168.1.25
-port: 65433
-robot_ip: 192.168.1.22
-
-testmode: True
