@@ -12,16 +12,17 @@ class XBcontroller():
         5: 'RB',
         6: 'BCK',
         7: 'STA',
-        8: 'LST',
-        9: 'RST',
+        8: 'MID',
+        9: 'LST',
+        10: 'RST'
     }
 
     axes = {
         0: 'LX',
         1: 'LY',
-        2: 'RX',
-        3: 'RY',
-        4: 'LT',
+        2: 'LT',
+        3: 'RX',
+        4: 'RY',
         5: 'RT',
     }
 
