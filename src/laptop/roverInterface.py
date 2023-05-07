@@ -5,7 +5,6 @@ import socket
 from time import sleep
 
 import pygame
-
 import XBcontroller
 
 
@@ -16,9 +15,9 @@ def main():
     config.read(''.join((__file__, "\\..\\..\\..\\config.ini")))
 
     TESTMODE = config['DEFAULT'].getboolean('testmode')
-    HOST = config['socket']['ip']
+    HOST = "192.168.1.25"
     # pick any number between 1024 and 65535 as long as it matches rover
-    PORT = config['socket'].getint('port')
+    PORT = 65433
 
     if TESTMODE:
         print(
