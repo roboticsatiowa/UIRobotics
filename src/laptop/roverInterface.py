@@ -42,7 +42,8 @@ def main():
                 for event in events:  # allows multiple events to be handled at once
                     # inp = input("Enter msg:")
                     inp = cont.getInput(event)
-                    conn.sendall(inp.encode('UTF-8'))
+                    if inp:
+                        conn.sendall(inp.encode('UTF-8'))
                     sleep(0.01)
 
 
